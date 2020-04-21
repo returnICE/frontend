@@ -1,0 +1,75 @@
+.login {
+  background: url('../assets/login_page/background.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: 100%;
+  min-width: 1024px;
+  width : 100%;
+  height : 100%;
+  font-family : bamin;
+}
+#login_bg{
+  background: url('../assets/login_page/login_box.png') no-repeat center;
+  background-size: 70%;
+  position : fixed;
+  height : 70%;
+  width : 50%;
+  left : 25%;
+  top : 20%;
+}
+#login_container{
+  vertical-align: middle;
+  position : relative;
+  width : 57%;
+  height : auto;
+  top : -10%;
+  left : 20%;  
+  font-size : 25px;
+}
+.id_container{
+  position : relative;
+}
+.pw_container{
+  position : relative;
+  margin-top : 10%;
+}
+#textbox_id{
+  position : relative;
+  border-left : none;
+  border-right : none;
+  border-top : none;
+  border-color : black;
+  background-color : rgb(245, 245, 245);
+  border-radius: 3px;
+  width : 100%;
+  height : 40px;
+  
+}
+#textbox_pw{
+  position : relative;
+  border-left : none;
+  border-right : none;
+  border-top : none;
+  border-color : black;
+  background-color : rgb(245, 245, 245);
+  border-radius: 3px;
+  width : 100%;
+  height : 40px;
+}
+#btn_login{
+  position: relative;
+  width : 100%;
+  height : auto;
+  margin-top : 10%;
+}
+#btn_signup{
+  position: relative;
+  width : 100%;
+  height : auto;
+  margin-top : 3%;
+}
+#logo{
+  margin-top : -40px;
+}
