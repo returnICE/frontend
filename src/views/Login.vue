@@ -32,7 +32,7 @@ export default {
       window.location.href = '/signUp'
     },
     login: function () {
-      this.$http.post('/api/users/login', {
+      this.$http.post('/api/sellers/login', {
         user: this.user
       }).then(
         (res) => {

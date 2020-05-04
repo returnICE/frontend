@@ -14,7 +14,7 @@
         <input type = "text" v-model="secondphone" id="signup_phone_second" class = "input_phone"/>-
         <input type = "text" v-model="thirdphone" id="signup_phone_third" class = "input_phone"/><br/>
         매장 소개 : <input type = "text_box" v-model="user.info" id = "signup_info" class = "text_box"/><br/><br/>
-        매장 사진 : <br/><br/><input type = "file" id = "singup_image" @change="onFileChange"/><br/><br/>
+        매장 사진 : <br/><br/><input type = "file" id = "singup_image" @change="onFileChange" accept = ".gif, .jpg, .png"/><br/><br/>
     <form>
         기업 계약 여부 :
         <input type="radio" v-model="user.contractable" id="signup_contractable" name="contractable" value="true"/>
@@ -39,6 +39,7 @@
     </div>
 </div>
 </template>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=32e70bb32e511a3745821af6316816f7&libraries=services"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 export default {
@@ -48,6 +49,8 @@ export default {
       secondphone: '',
       thirdphone: '',
       pwcollect:'',
+      lat : '',
+      lon : '',
       user: {
         id: '',
         pw: '',
@@ -69,25 +72,20 @@ export default {
         oncomplete: function (data) {
           document.getElementById('signup_address').value = data.address
           document.getElementById('signup_address_num').value = data.zonecode
-          var geocoder = new google.maps.Geocoder();
-          var addr=data.address;
-          var lat="";
-          var lng="";
-          geocoder.geocode({'address':addr},
-            function(results, status){
-              if(results!=""){
-                var location=results[0].geometry.location;
-                lat=location.lat();
-                lng=location.lng();
-              }
-            }
-          )
         }
       }).open()
     },
     signup : function(event){
-      user.phone = firstphone + secondphone + thirdphone
-        this.$http.post('users/signUp',{
+      this.user.phone = this.firstphone + this.secondphone + this.thirdphone
+      this.user.address = document.getElementById('signup_address').value
+      var geocoder = new kakao.maps.services.Geocoder();
+      geocoder.addressSearch(this.user.address,(result,status) => {
+        if(status === kakao.maps.services.Status.OK){
+          this.user.lat = result[0].y
+          this.user.lon = result[0].x
+        }
+      })
+        this.$http.post('sellers/signUp',{
           user : this.user
         }).then((res) => {
           if(res.data.success == true){
@@ -102,7 +100,8 @@ export default {
         })
     },
     onFileChange : function(){
-
+      var file = document.getElementById('singup_image')
+      this.user.imgURL = file.value
     }
   }
 }
