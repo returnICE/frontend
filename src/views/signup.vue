@@ -14,7 +14,7 @@
         <input type = "text" v-model="secondphone" id="signup_phone_second" class = "input_phone"/>-
         <input type = "text" v-model="thirdphone" id="signup_phone_third" class = "input_phone"/><br/>
         매장 소개 : <input type = "text_box" v-model="user.info" id = "signup_info" class = "text_box"/><br/><br/>
-        매장 사진 : <br/><br/><input type = "file" id = "singup_image" @change="onFileChange"/><br/><br/>
+        매장 사진 : <br/><br/><input type = "file" id = "singup_image" @change="onFileChange" accept = ".gif, .jpg, .png"/><br/><br/>
     <form>
         기업 계약 여부 :
         <input type="radio" v-model="user.contractable" id="signup_contractable" name="contractable" value="true"/>
@@ -85,7 +85,7 @@ export default {
           this.user.lon = result[0].x
         }
       })
-        this.$http.post('users/signUp',{
+        this.$http.post('sellers/signUp',{
           user : this.user
         }).then((res) => {
           if(res.data.success == true){
@@ -100,7 +100,8 @@ export default {
         })
     },
     onFileChange : function(){
-
+      var file = document.getElementById('singup_image')
+      this.user.imgURL = file.value
     }
   }
 }
