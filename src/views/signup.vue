@@ -39,6 +39,7 @@
     </div>
 </div>
 </template>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=32e70bb32e511a3745821af6316816f7&libraries=services"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 export default {
@@ -48,6 +49,8 @@ export default {
       secondphone: '',
       thirdphone: '',
       pwcollect:'',
+      lat : '',
+      lon : '',
       user: {
         id: '',
         pw: '',
@@ -69,24 +72,19 @@ export default {
         oncomplete: function (data) {
           document.getElementById('signup_address').value = data.address
           document.getElementById('signup_address_num').value = data.zonecode
-          var geocoder = new google.maps.Geocoder();
-          var addr=data.address;
-          var lat="";
-          var lng="";
-          geocoder.geocode({'address':addr},
-            function(results, status){
-              if(results!=""){
-                var location=results[0].geometry.location;
-                lat=location.lat();
-                lng=location.lng();
-              }
-            }
-          )
         }
       }).open()
     },
     signup : function(event){
-      user.phone = firstphone + secondphone + thirdphone
+      this.user.phone = this.firstphone + this.secondphone + this.thirdphone
+      this.user.address = document.getElementById('signup_address').value
+      var geocoder = new kakao.maps.services.Geocoder();
+      geocoder.addressSearch(this.user.address,(result,status) => {
+        if(status === kakao.maps.services.Status.OK){
+          this.user.lat = result[0].y
+          this.user.lon = result[0].x
+        }
+      })
         this.$http.post('users/signUp',{
           user : this.user
         }).then((res) => {
