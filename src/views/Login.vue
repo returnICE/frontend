@@ -18,6 +18,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data: function () {
     return {
@@ -32,11 +33,21 @@ export default {
       window.location.href = '/signUp'
     },
     login: function () {
+      console.log(this.user.id)
+      console.log(this.user.pw)
       this.$http.post('/api/sellers/login', {
-        user: this.user
+        sellerId: this.user.id,
+        pw: this.user.pw
       }).then(
         (res) => {
-          alert(res.data.message)
+          if (res.data.success === true) {
+            alert('로그인')
+            document.cookie = `accessToken=${res.data}`
+            axios.defaults.headers.common['x-access-token'] = res.data
+            window.location.href = '/Main'
+          } else {
+            alert(res.data.err)
+          }
         })
     }
   }

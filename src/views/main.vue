@@ -1,0 +1,95 @@
+<template>
+    <div id = "main">
+        <div id = "top">
+        </div>
+        <div id = "side">
+            <button v-on:click = "sideclick('customer')" class = "side_btn" id = "btn_customer"></button>
+            <button v-on:click = "sideclick('data')" class = "side_btn" id = "btn_data"></button>
+            <button v-on:click = "sideclick('campain')" class = "side_btn" id = "btn_campain"></button>
+            <button v-on:click = "sideclick('product')" class = "side_btn" id = "btn_product"></button>
+            <button v-on:click = "sideclick('log')" class = "side_btn" id = "btn_log"></button>
+            <button v-on:click = "sideclick('manage')" class = "side_btn" id = "btn_manage"></button>
+        </div>
+        <div id = "component">
+            <div v-if = "mode == 'customer'">
+                <customer></customer>
+            </div>
+            <div v-if = "mode == 'data'">
+                <Data></Data>
+            </div>
+            <div v-if = "mode == 'campain'">
+                <campain></campain>
+            </div>
+            <div v-if = "mode == 'product'">
+                <product></product>
+            </div>
+            <div v-if = "mode == 'log'">
+                <log></log>
+            </div>
+            <div v-if = "mode == 'manage'">
+                <manage></manage>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import Customer from '../components/customer.vue'
+import Campain from '../components/campain.vue'
+import Data from '../components/data.vue'
+import Product from '../components/product.vue'
+import Log from '../components/log.vue'
+import Manage from '../components/manage.vue'
+
+export default {
+  components: {
+    Customer,
+    Campain,
+    Data,
+    Product,
+    Log,
+    Manage
+  },
+  data: function () {
+    return {
+      mode: ''
+    }
+  },
+  methods: {
+    sideclick: function (message) {
+      var customerBtn = document.getElementById('btn_customer')
+      var dataBtn = document.getElementById('btn_data')
+      var campainBtn = document.getElementById('btn_campain')
+      var productBtn = document.getElementById('btn_product')
+      var logBtn = document.getElementById('btn_log')
+      var manageBtn = document.getElementById('btn_manage')
+      customerBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_customer.png') + ')'
+      dataBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_data.png') + ')'
+      campainBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_campain.png') + ')'
+      productBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_product.png') + ')'
+      logBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_log.png') + ')'
+      manageBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_manage.png') + ')'
+      this.mode = message
+      if (this.mode === 'customer') {
+        customerBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_customer_select.png') + ')'
+      }
+      if (this.mode === 'data') {
+        dataBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_data_select.png') + ')'
+      }
+      if (this.mode === 'campain') {
+        campainBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_campain_select.png') + ')'
+      }
+      if (this.mode === 'product') {
+        productBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_product_select.png') + ')'
+      }
+      if (this.mode === 'log') {
+        logBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_log_select.png') + ')'
+      }
+      if (this.mode === 'manage') {
+        manageBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_manage_select.png') + ')'
+      }
+    }
+  }
+}
+</script>
+<style src = "./main.css" scoped>
+</style>

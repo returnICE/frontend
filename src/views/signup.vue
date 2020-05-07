@@ -4,7 +4,7 @@
     <div class = "input_container">
     <br/>
     <h1>회원가입</h1>
-        ID : <input type="text" v-model="user.id" id="signup_id" class = "text_box"/><br/>
+        ID : <input type="text" v-model="user.sellerId" id="signup_id" class = "text_box"/><br/>
         PW : <input type="password" v-model="user.pw" id="signup_pw" class = "text_box"/><br/>
         PW 확인: <input type="password" v-model="pwcollect" id="signup_pw_accept" class = "text_box"/><br/>
         <div v-if = "user.pw != pwcollect && pwcollect != ''" class = "password_collect">비밀번호가 다릅니다</div>
@@ -14,7 +14,11 @@
         <input type = "text" v-model="secondphone" id="signup_phone_second" class = "input_phone"/>-
         <input type = "text" v-model="thirdphone" id="signup_phone_third" class = "input_phone"/><br/>
         매장 소개 : <input type = "text_box" v-model="user.info" id = "signup_info" class = "text_box"/><br/><br/>
-        매장 사진 : <br/><br/><input type = "file" id = "singup_image" @change="onFileChange" accept = ".gif, .jpg, .png"/><br/><br/>
+        매장 사진 : <br/><br/>
+        <form action="/api/upload" method="post" enctype="multipart/form-data" >
+        <input type="file" name="imgFile" multiple>
+        <input type="submit" value="S3에 보내기">
+        </form><br/><br/>
     <form>
         기업 계약 여부 :
         <input type="radio" v-model="user.contractable" id="signup_contractable" name="contractable" value="true"/>
@@ -52,7 +56,7 @@ export default {
       lat : '',
       lon : '',
       user: {
-        id: '',
+        sellerId: '',
         pw: '',
         name:'',
         phone: '',
@@ -85,19 +89,31 @@ export default {
           this.user.lon = result[0].x
         }
       })
-        this.$http.post('sellers/signUp',{
-          user : this.user
-        }).then((res) => {
-          if(res.data.success == true){
-            alert(res.data.message)
-            this.$router.push('/login')
-          }
-          if(res.data.success == false){
-            alert(res.data.message)
-          }
-        }).catch(function(error){
-          alert(error)
-        })
+      if(!(this.user.sellerId == '' || this.user.pw == '' || this.user.name == '' || this.firstphone == '' || this.secondphone == '' || this.thirdphone == ''
+          || this.user.contractable == '' || this.user.type == '')){
+          console.log(this.user.sellerId)
+          this.$http.post('/api/sellers',{
+            sellerId : this.user.sellerId,
+            pw : this.user.pw,
+            name : this.user.name,
+            phone : this.user.phone,
+            address : this.user.address,
+            lat : this.user.lat,
+            lon : this.user.lon,
+            info : this.user.info,
+            type : this.user.type
+          }).then((res) => {
+            if(res.data.success == true){
+              alert(res.data)
+              window.location.href = '/'
+            }
+            if(res.data.success == false){
+              alert(res.data)
+            }
+          }).catch(function(error){
+            alert(error)
+          })
+      }
     },
     onFileChange : function(){
       var file = document.getElementById('singup_image')
