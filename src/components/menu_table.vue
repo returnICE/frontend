@@ -24,6 +24,7 @@ export default {
   components: {
     VueGoodTable
   },
+  props: ['menu_data'],
   data: function () {
     return {
       selectList: [],

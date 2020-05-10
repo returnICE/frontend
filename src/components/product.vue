@@ -8,7 +8,7 @@
     <subTable></subTable>
   </div>
   <div v-if = "this.mode === 'menu'">
-    <menuTable></menuTable>
+    <menuTable v-bind:menu_data="total_data.data"></menuTable>
   </div>
   <!--
   <div v-if = "this.mode == 'menu'" id = 'menu_div'>
@@ -21,6 +21,7 @@
 <script>
 import subTable from './sub_table.vue'
 import menuTable from './menu_table.vue'
+
 export default {
   name: 'Product',
   components: {
@@ -29,13 +30,22 @@ export default {
   },
   data: function () {
     return {
-      mode: 'sub'
+      mode: 'sub',
+      total_data: []
     }
   },
   methods: {
     menu_bar_onclick: function (message) {
+      this.$http.get('/api/sellers/product', {
+        headers: {
+          'x-access-token': document.cookie
+        }
+      }).then(
+        (res) => {
+          this.total_data = res // 개발중
+        }
+      )
       this.mode = message
-      console.log(this.mode)
     }
   }
 }

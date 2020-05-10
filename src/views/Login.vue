@@ -33,16 +33,14 @@ export default {
       window.location.href = '/signUp'
     },
     login: function () {
-      console.log(this.user.id)
-      console.log(this.user.pw)
       this.$http.post('/api/sellers/login', {
         sellerId: this.user.id,
         pw: this.user.pw
       }).then(
         (res) => {
           if (res.data.success === true) {
-            alert('로그인')
-            document.cookie = `accessToken=${res.data}`
+            // alert('로그인')
+            document.cookie = res.data.data
             axios.defaults.headers.common['x-access-token'] = res.data
             window.location.href = '/Main'
           } else {
