@@ -1,0 +1,31 @@
+#sub_tab{
+    background : url('../../assets/product_page/sub_tab.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width : 150px;
+    height : 30px;
+    border : none;
+    outline : 0;
+    cursor : pointer;
+}
+#menu_tab{
+    background : url('../../assets/product_page/menu_tab.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width : 150px;
+    height : 30px;
+    border : none;
+    outline : 0;
+    cursor : pointer;
+}
+#menu_bar{
+    float : left;
+    margin-top : 50px;
+}
+
+
+

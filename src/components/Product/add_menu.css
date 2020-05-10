@@ -1,0 +1,28 @@
+.input_text{
+    width : 150px;
+    height : 30px;
+    border-color : rgb(201, 201, 201);
+    border-radius : 6px;
+    border-width: 1px;
+}
+.input_div{
+    margin-top : 20px;
+    margin-left : 20px;
+    text-align : left;
+}
+#add_menu{
+    font-family : bamin;
+}
+#add_menu_submit{
+    background : url('../../assets/product_page/register_menu.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border : none;
+    outline: 0;
+    cursor: pointer;
+    margin-top : 30px;
+    width : 300px;
+    height : 40px;
+}

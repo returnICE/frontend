@@ -36,7 +36,7 @@
 import Customer from '../components/Customer/customer.vue'
 import Campain from '../components/campain.vue'
 import Data from '../components/data.vue'
-import Product from '../components/product.vue'
+import Product from '../components/Product/product.vue'
 import Log from '../components/log.vue'
 import Manage from '../components/manage.vue'
 

@@ -36,15 +36,6 @@ export default {
   },
   methods: {
     menu_bar_onclick: function (message) {
-      this.$http.get('/api/sellers/product', {
-        headers: {
-          'x-access-token': document.cookie
-        }
-      }).then(
-        (res) => {
-          this.total_data = res // 개발중
-        }
-      )
       this.mode = message
     }
   }

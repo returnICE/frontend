@@ -6,6 +6,10 @@ import Main from '../views/main.vue'
 
 Vue.use(VueRouter)
 
+const requireAuth = () => (from, to, next) => {
+  return next()
+}
+
 const routes = [
   {
     path: '/',
@@ -20,7 +24,8 @@ const routes = [
   {
     path: '/main',
     name: 'main',
-    component: Main
+    component: Main,
+    beforeEnter: requireAuth()
   }
 ]
 
