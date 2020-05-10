@@ -33,6 +33,8 @@ export default new Vuex.Store({
             axios.defaults.headers.common['x-access-token'] = data.data
             localStorage.accessToken = data.data
             window.location.href = '/Main'
+          } else {
+            alert(data.err)
           }
         })
     },
