@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id = 'menu_div'>
+    <div  id = 'sub_div'>
         <button class = "append_btn"></button>
         <button v-on:click = "delete_function" class = "delete_btn" ></button>
     </div>
@@ -20,34 +20,40 @@
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
 export default {
-  name: 'menuTable',
+  name: 'subTable',
   components: {
     VueGoodTable
   },
-  props: ['menu_data'],
   data: function () {
     return {
       selectList: [],
       columns: [
         {
-          label: '메뉴 이름',
+          label: '구독권 이름',
           field: 'name'
         },
         {
-          label: '가격',
+          label: '가격/월',
           field: 'price'
         },
         {
-          label: '메뉴정보',
-          field: 'info'
+          label: '제공횟수',
+          field: 'count'
         },
         {
-          label: '평균 평점',
-          field: 'score'
+          label: '메뉴',
+          field: 'menu'
+        },
+        {
+          label: '구독 정보',
+          field: 'info'
         }
       ],
       rows: [
-        { id: 1, name: '짜장알밥', price: '7,000', info: '샘플데이터', score: '4.6' }
+        { id: 1, name: 'A서비스', price: '39,000원/월', count: '15회/월', menu: '매운알밥', info: '샘플 정보' },
+        { id: 2, name: 'B서비스', price: '21,000원/월', count: '7회/주', menu: '짜장알밥', info: '샘플정보' },
+        { id: 3, name: 'C서비스', price: '50,000원/월', count: '1회/일', menu: '카레알밥', info: '샘플정보' },
+        { id: 4, name: 'D서비스', price: '30,000원/월', count: '5회/3일', menu: '크립알밥', info: '샘플정보' }
       ]
     }
   },
@@ -62,5 +68,5 @@ export default {
   }
 }
 </script>
-<style src = "./menu_table.css" scoped>
+<style src = "./sub_table.css" scoped>
 </style>
