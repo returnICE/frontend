@@ -58,7 +58,6 @@ export default {
     }
   },
   beforeCreate () {
-    console.log(axios.defaults.headers.common['x-access-token'])
     axios.get('/api/sellers/product', {
     }).then((res) => {
       console.log(res)
