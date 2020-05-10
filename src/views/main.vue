@@ -33,7 +33,7 @@
     </div>
 </template>
 <script>
-import Customer from '../components/customer.vue'
+import Customer from '../components/Customer/customer.vue'
 import Campain from '../components/campain.vue'
 import Data from '../components/data.vue'
 import Product from '../components/product.vue'
