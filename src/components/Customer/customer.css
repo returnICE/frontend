@@ -1,0 +1,31 @@
+#customer_tab{
+    background : url('../../assets/customer_page/customer_tab.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width : 150px;
+    height : 30px;
+    border : none;
+    outline : 0;
+    cursor : pointer;
+}
+#enterprise_tab{
+    background : url('../../assets/customer_page/enterprise_tab.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width : 150px;
+    height : 30px;
+    border : none;
+    outline : 0;
+    cursor : pointer;
+}
+#menu_bar{
+    float : left;
+    margin-top : 50px;
+}
+
+
+
