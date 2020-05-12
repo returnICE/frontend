@@ -30,7 +30,6 @@ export default {
   components: {
     VueGoodTable
   },
-  props: ['menu_data'],
   data: function () {
     return {
       selectList: [],
@@ -52,27 +51,31 @@ export default {
           field: 'score'
         }
       ],
-      rows: [
-        { id: 1, name: '짜장알밥', price: '7,000', info: '샘플데이터', score: '4.6' }
-      ]
+      rows: [],
+      menu_data: []
     }
   },
   beforeCreate () {
     axios.get('/api/sellers/product', {
     }).then((res) => {
-      console.log(res)
+      for (let i = 0; i < res.data.menu.length; i++) {
+        this.rows.push({ id: i + 1, name: res.data.menu[i].menuName, price: res.data.menu[i].price, info: res.data.menu[i].info, score: res.data.menu[i].avgScore })
+        this.menu_data.push({ id: i + 1, menuId: res.data.menu[i].menuId })
+      }
     })
-  },
-  mounted () {
-    this.add_function()
   },
   methods: {
     selectionChanged: function (params) {
-      console.log(params.selectedRows)
       this.selectList = params.selectedRows
     },
     delete_function: function () {
-      console.log('delete')
+      for (let i = 0; i < this.selectList.length; i++) {
+        for (let j = 0; j < this.menu_data.length; j++) {
+          if (this.menu_data[j].id === this.selectList[i].id) {
+            axios.delete('/api/sellers/product/menu', { menu: this.menu_data[j].menuId })
+          }
+        }
+      }
     },
     add_function: function () {
       this.$modal.show(addMenu, {

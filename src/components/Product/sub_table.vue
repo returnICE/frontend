@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div  id = 'sub_div'>
-        <button class = "append_btn"></button>
+    <div id = 'sub_div'>
+        <button v-on:click = "add_function" class = "append_btn"></button>
         <button v-on:click = "delete_function" class = "delete_btn" ></button>
+    </div>
+    <div>
+      <modals-container/>
     </div>
     <vue-good-table
       class = "my-table"
@@ -19,6 +22,9 @@
 <script>
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
+import addSub from './add_sub.vue'
+import axios from 'axios'
+
 export default {
   name: 'subTable',
   components: {
@@ -49,13 +55,22 @@ export default {
           field: 'info'
         }
       ],
-      rows: [
-        { id: 1, name: 'A서비스', price: '39,000원/월', count: '15회/월', menu: '매운알밥', info: '샘플 정보' },
-        { id: 2, name: 'B서비스', price: '21,000원/월', count: '7회/주', menu: '짜장알밥', info: '샘플정보' },
-        { id: 3, name: 'C서비스', price: '50,000원/월', count: '1회/일', menu: '카레알밥', info: '샘플정보' },
-        { id: 4, name: 'D서비스', price: '30,000원/월', count: '5회/3일', menu: '크립알밥', info: '샘플정보' }
-      ]
+      rows: []
     }
+  },
+  beforeCreate () {
+    axios.get('/api/sellers/product', {
+    }).then((res) => {
+      console.log(res)
+      for (let i = 0; i < res.data.subItem.length; i++) {
+        var str = ''
+        for (let j = 0; j < res.data.subItem[i].Menus.length; j++) {
+          str += res.data.subItem[i].Menus[j].menuName + ','
+        }
+        this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '/' + res.data.subItem[i].term + '시간', menu: str, info: res.data.subItem[i].info })
+        // this.menu_data.push({ id: i + 1, menuId: res.data.menu[i].menuId })
+      }
+    })
   },
   methods: {
     selectionChanged: function (params) {
@@ -64,6 +79,16 @@ export default {
     },
     delete_function: function () {
       console.log('delete')
+    },
+    add_function: function () {
+      this.$modal.show(addSub, {
+        modal: this.$modal
+      }, {
+        name: 'addSub',
+        width: '330px',
+        height: '400px',
+        draggable: false
+      })
     }
   }
 }
