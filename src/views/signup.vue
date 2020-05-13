@@ -2,34 +2,59 @@
   <div id="signup_page">
     <div id="signup_container">
       <div class="input_container">
-        <br />
-        <h1>회원가입</h1>ID :
-        <input type="text" v-model="user.sellerId" id="signup_id" class="text_box" />
-        <br />PW :
-        <input type="password" v-model="user.pw" id="signup_pw" class="text_box" />
-        <br />PW 확인:
-        <input type="password" v-model="pwcollect" id="signup_pw_accept" class="text_box" />
-        <br />
-        <div v-if="user.pw != pwcollect && pwcollect != ''" class="password_collect">비밀번호가 다릅니다</div>매장 이름:
-        <input type="text" v-model="user.name" id="signup_name" class="text_box" />
-        <br />매장 전화번호 :
-        <input
-          type="text"
-          v-model="firstphone"
-          id="signup_phone_first"
-          class="input_phone"
-        />-
-        <input type="text" v-model="secondphone" id="signup_phone_second" class="input_phone" />-
-        <input type="text" v-model="thirdphone" id="signup_phone_third" class="input_phone" />
-        <br />매장 소개 :
-        <input type="text_box" v-model="user.info" id="signup_info" class="text_box" />
-        <br />
-        <br />매장 사진 :
-        <br />
-        <br />
-        <input type="file" name="imgFile" ref="photoimage" />
-        <br />
-        <br />기업 계약 여부 :
+        <h1>회원가입</h1>
+        <div class="form-group row">
+          <label class="col-3" for="signup_id">ID</label>
+          <input class="text_box col-9" type="text" v-model="user.sellerId" id="signup_id" />
+        </div>
+        <div class="form-group row">
+          <label class="col-3" for="signup_pw">PW</label>
+          <input class="text_box col-9" type="password" v-model="user.pw" id="signup_pw" />
+        </div>
+        <div class="form-group row">
+          <label class="col-3" for="signup_pw_accept">PW 확인</label>
+          <input
+            class="text_box col-9"
+            type="password"
+            v-model="pwcollect"
+            id="signup_pw_accept"
+            required
+          />
+        </div>
+        <div v-if="user.pw != pwcollect && pwcollect != ''" class="password_collect">비밀번호가 다릅니다</div>
+        <div class="form-group row">
+          <label class="col-3" for="signup_name">매장 이름</label>
+          <input class="text_box col-9" type="text" v-model="user.name" id="signup_name" />
+        </div>
+        <div class="form-group row">
+          <label class="col-3" for="signup_info">매장 소개</label>
+          <input class="text_box col-9" type="text" v-model="user.info" id="signup_info" />
+        </div>
+        <div class="form-row">
+          <label class="col-3" for="signup_name">전화번호</label>
+          <div class="col row">
+            <input
+              type="text"
+              v-model="firstphone"
+              id="signup_phone_first"
+              class="col form-control-sm form-control"
+            />-
+            <input
+              type="text"
+              v-model="secondphone"
+              id="signup_phone_second"
+              class="col form-control-sm form-control"
+            />-
+            <input
+              type="text"
+              v-model="thirdphone"
+              id="signup_phone_third"
+              class="col form-control-sm form-control"
+            />
+          </div>
+        </div>
+        <label for="signup_img">매장 사진</label>
+        <vue-dropzone name="imgFile" ref="photoimage" id="dropzone" :options="dropzoneOptions"></vue-dropzone>기업 계약 여부 :
         <input
           type="radio"
           v-model="user.contractable"
@@ -46,9 +71,7 @@
           value="false"
         />
         <label value="false" for="false">거부</label>
-        <br />
-        <br />주소 :
-        <br />
+        주소 :
         <input
           type="text"
           id="signup_address_num"
@@ -57,8 +80,7 @@
           disabled
         />
         <button class="btn" v-on:click="address_function">주소찾기</button>
-        <br />
-        <br />
+
         <input
           v-model="user.address"
           type="text"
@@ -67,16 +89,14 @@
           placeholder="주소"
           disabled
         />
-        <br />
-        <br />매장 종류 :
+        매장 종류 :
         <select v-model="user.type">
           <option disabled value>선택</option>
           <option value="bar">술집</option>
           <option value="dinner">음식점</option>
           <option value="cafe">카페</option>
         </select>
-        <br />
-        <br />
+
         <button v-on:click="signup" id="btn_signup" />
       </div>
     </div>
@@ -85,9 +105,21 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=32e70bb32e511a3745821af6316816f7&libraries=services"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+import vue2Dropzone from "vue2-dropzone";
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
 export default {
+  components: {
+    vueDropzone: vue2Dropzone
+  },
   data: function() {
     return {
+      dropzoneOptions: {
+        url: "http://localhost:3000/upload",
+        method:"post",
+        thumbnailWidth: 150,
+        maxFilesize: 0.5,
+        headers: { "My-Awesome-Header": "header value" }
+      },
       firstphone: "010",
       secondphone: "7007",
       thirdphone: "9444",
@@ -143,7 +175,8 @@ export default {
         console.log(this.user.sellerId);
 
         var data = new FormData();
-        var file = this.$refs.photoimage.files[0];
+        console.log(this.$refs.dropzone)
+        var file = this.$refs.photoimage.files;
         data.append("imgFile", file);
         try {
           const resUpload = await this.$http.post("/api/upload", data);
