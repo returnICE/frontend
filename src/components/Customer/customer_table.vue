@@ -20,6 +20,7 @@
 <script>
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
+import axios from 'axios'
 export default {
   name: 'customerTable',
   components: {
@@ -28,6 +29,7 @@ export default {
   data: function () {
     return {
       selectList: [],
+      currentId: 0,
       columns: [
         {
           label: '이름',
@@ -38,16 +40,8 @@ export default {
           field: 'phone'
         },
         {
-          label: '성별',
-          field: 'sex'
-        },
-        {
           label: '생년월일',
           field: 'birth'
-        },
-        {
-          label: '나이',
-          field: 'age'
         },
         {
           label: '구독 서비스',
@@ -63,60 +57,31 @@ export default {
         },
         {
           label: '해지 여부',
-          field: 'cancled'
+          field: 'cancel'
         }
       ],
-      rows: [
-        {
-          id: 1,
-          name: '정성원',
-          phone: '01011112222',
-          sex: '남',
-          birth: '1995-04-05',
-          age: '26',
-          service: 'A서비스',
-          due_count: 3,
-          due_date: '5/20',
-          cancled: 'X'
-        },
-        {
-          id: 2,
-          name: '권인우',
-          phone: '01033334444',
-          sex: '남',
-          birth: '1995-11-13',
-          age: '26',
-          service: 'A서비스',
-          due_count: 3,
-          due_date: '5/20',
-          cancled: 'X'
-        },
-        {
-          id: 3,
-          name: '정성원',
-          phone: '01011112222',
-          sex: '남',
-          birth: '1995-04-05',
-          age: '26',
-          service: 'A서비스',
-          due_count: 3,
-          due_date: '5/20',
-          cancled: 'X'
-        },
-        {
-          id: 4,
-          name: '정성원',
-          phone: '01011112222',
-          sex: '남',
-          birth: '1995-04-05',
-          age: '26',
-          service: 'A서비스',
-          due_count: 3,
-          due_date: '5/20',
-          cancled: 'X'
-        }
-      ]
+      rows: []
     }
+  },
+  beforeCreate () {
+    axios.get('/api/sellers/customer', {
+    }).then((res) => {
+      console.log(res)
+      for (var s of res.data.data) {
+        this.currentId += 1
+        var dic = {
+          id: this.currentId,
+          name: s.name,
+          phone: s.phone,
+          birth: s.birth,
+          service: s.subName,
+          due_count: s.limitTimes - s.usedTimes,
+          due_date: s.endDate,
+          cancel: s.autoPay === 1 ? 'O' : 'X'
+        }
+        this.rows.push(dic)
+      }
+    })
   },
   methods: {
     selectionChanged: function (params) {
