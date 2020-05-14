@@ -1,0 +1,28 @@
+#customer_log{
+    background : url(../../assets/log_page/customer_log.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width : 150px;
+    height : 30px;
+    border : none;
+    outline : 0;
+    cursor : pointer;
+}
+#enterprise_log{
+    background : url(../../assets/log_page/enterprise_log.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width : 150px;
+    height : 30px;
+    border : none;
+    outline : 0;
+    cursor : pointer;
+}
+#menu_bar{
+    float : left;
+    margin-top : 50px;
+}
