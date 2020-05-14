@@ -85,11 +85,7 @@ export default {
   },
   methods: {
     selectionChanged: function (params) {
-      console.log(params.selectedRows)
       this.selectList = params.selectedRows
-    },
-    delete_function: function () {
-      console.log('delete')
     }
   }
 }
