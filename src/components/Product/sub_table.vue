@@ -5,7 +5,7 @@
         <button v-on:click = "delete_function" class = "delete_btn" ></button>
     </div>
     <div>
-      <modals-container/>
+      <modals-container v-on:read_product="read_product"/>
     </div>
     <vue-good-table
       class = "my-table"
@@ -32,6 +32,7 @@ export default {
   },
   data: function () {
     return {
+      sub_data: [],
       selectList: [],
       columns: [
         {
@@ -61,24 +62,46 @@ export default {
   beforeCreate () {
     axios.get('/api/sellers/product', {
     }).then((res) => {
-      console.log(res)
       for (let i = 0; i < res.data.subItem.length; i++) {
         var str = ''
         for (let j = 0; j < res.data.subItem[i].Menus.length; j++) {
           str += res.data.subItem[i].Menus[j].menuName + ','
         }
         this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '/' + res.data.subItem[i].term + '시간', menu: str, info: res.data.subItem[i].info })
-        // this.menu_data.push({ id: i + 1, menuId: res.data.menu[i].menuId })
+        this.sub_data.push({ id: i + 1, subItemId: res.data.subItem[i].subId })
       }
     })
   },
   methods: {
     selectionChanged: function (params) {
-      console.log(params.selectedRows)
       this.selectList = params.selectedRows
     },
     delete_function: function () {
-      console.log('delete')
+      for (let i = 0; i < this.selectList.length; i++) {
+        for (let j = 0; j < this.sub_data.length; j++) {
+          if (this.sub_data[j].id === this.selectList[i].id) {
+            axios.delete(`/api/sellers/product/sub/${this.sub_data[j].subItemId}`, {})
+              .then((res) => {
+                this.read_product()
+              })
+          }
+        }
+      }
+    },
+    read_product: function () {
+      console.log('테스트')
+      axios.get('/api/sellers/product', {
+      }).then((res) => {
+        this.rows = []
+        for (let i = 0; i < res.data.subItem.length; i++) {
+          var str = ''
+          for (let j = 0; j < res.data.subItem[i].Menus.length; j++) {
+            str += res.data.subItem[i].Menus[j].menuName + ','
+          }
+          this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '/' + res.data.subItem[i].term + '시간', menu: str, info: res.data.subItem[i].info })
+          this.sub_data.push({ id: i + 1, subItemId: res.data.subItem[i].subId })
+        }
+      })
     },
     add_function: function () {
       this.$modal.show(addSub, {

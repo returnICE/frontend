@@ -82,8 +82,8 @@ export default {
         term: termNum,
         menuId: menuList
       }).then((res) => {
-        console.log(res)
       })
+      this.$emit('read_product')
       this.$emit('close')
     }
   }

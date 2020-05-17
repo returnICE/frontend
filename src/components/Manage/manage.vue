@@ -6,10 +6,15 @@
     매장정보 : {{info}}<br/>
     기업계약여부 : {{contractable}}<br/>
     매장 사진 : {{imgURL}}<br/>
+    <button v-on:click = "revicePage">매장 정보 수정하기</button>
+    <div>
+      <modals-container/>
+    </div>
 </div>
 </template>
 <script>
 import axios from 'axios'
+import revice from './revice.vue'
 export default {
   name: 'Manage',
   data: function () {
@@ -32,6 +37,18 @@ export default {
       this.contractable = res.data.data.contractable === 0 ? 'false' : 'true'
       this.imgURL = res.data.data.imgURL
     })
+  },
+  methods: {
+    revicePage: function () {
+      this.$modal.show(revice, {
+        modal: this.$modal
+      }, {
+        name: 'revice',
+        width: '400px',
+        height: '300px',
+        draggable: false
+      })
+    }
   }
 }
 </script>

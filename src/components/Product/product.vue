@@ -8,7 +8,7 @@
     <subTable></subTable>
   </div>
   <div v-if = "this.mode === 'menu'">
-    <menuTable v-bind:menu_data="total_data.data"></menuTable>
+    <menuTable></menuTable>
   </div>
   <!--
   <div v-if = "this.mode == 'menu'" id = 'menu_div'>
