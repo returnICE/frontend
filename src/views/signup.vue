@@ -1,15 +1,15 @@
 <template>
-  <div id="signup_page">
+  <form id="signup_page" @submit.prevent="signup">
     <div id="signup_container">
       <div class="input_container">
         <h1>회원가입</h1>
         <div class="form-group row">
           <label class="col-3" for="signup_id">ID</label>
-          <input class="text_box col-9" type="text" v-model="user.sellerId" id="signup_id" />
+          <input class="text_box col-9" type="text" v-model="user.sellerId" id="signup_id" required />
         </div>
         <div class="form-group row">
           <label class="col-3" for="signup_pw">PW</label>
-          <input class="text_box col-9" type="password" v-model="user.pw" id="signup_pw" />
+          <input class="text_box col-9" type="password" v-model="user.pw" id="signup_pw" required />
         </div>
         <div class="form-group row">
           <label class="col-3" for="signup_pw_accept">PW 확인</label>
@@ -24,11 +24,11 @@
         <div v-if="user.pw != pwcollect && pwcollect != ''" class="password_collect">비밀번호가 다릅니다</div>
         <div class="form-group row">
           <label class="col-3" for="signup_name">매장 이름</label>
-          <input class="text_box col-9" type="text" v-model="user.name" id="signup_name" />
+          <input class="text_box col-9" type="text" v-model="user.name" id="signup_name" required />
         </div>
         <div class="form-group row">
           <label class="col-3" for="signup_info">매장 소개</label>
-          <input class="text_box col-9" type="text" v-model="user.info" id="signup_info" />
+          <input class="text_box col-9" type="text" v-model="user.info" id="signup_info" required />
         </div>
         <div class="form-row">
           <label class="col-3" for="signup_name">전화번호</label>
@@ -38,69 +38,76 @@
               v-model="firstphone"
               id="signup_phone_first"
               class="col form-control-sm form-control"
+              required
             />-
             <input
               type="text"
               v-model="secondphone"
               id="signup_phone_second"
               class="col form-control-sm form-control"
+              required
             />-
             <input
               type="text"
               v-model="thirdphone"
               id="signup_phone_third"
               class="col form-control-sm form-control"
+              required
             />
           </div>
         </div>
         <label for="signup_img">매장 사진</label>
-        <vue-dropzone name="imgFile" ref="photoimage" id="dropzone" :options="dropzoneOptions"></vue-dropzone>기업 계약 여부 :
-        <input
-          type="radio"
+        <vue-dropzone
+          name="imgFile"
+          ref="photoimage"
+          id="dropzone"
+          :options="dropzoneOptions"
+          v-on:vdropzone-success="imageUpload"
+        ></vue-dropzone>
+        <b-form-radio-group
+          id="radio-group-2"
           v-model="user.contractable"
-          id="signup_contractable"
-          name="contractable"
-          value="true"
-        />
-        <label value="true" for="true">허용</label>
-        <input
-          type="radio"
-          v-model="user.contractable"
-          id="signup_contractable"
-          name="contractable"
-          value="false"
-        />
-        <label value="false" for="false">거부</label>
-        주소 :
-        <input
-          type="text"
-          id="signup_address_num"
-          class="textbox_address"
-          placeholder="우편번호"
-          disabled
-        />
-        <button class="btn" v-on:click="address_function">주소찾기</button>
-
-        <input
-          v-model="user.address"
-          type="text"
-          id="signup_address"
-          class="textbox_address"
-          placeholder="주소"
-          disabled
-        />
-        매장 종류 :
-        <select v-model="user.type">
-          <option disabled value>선택</option>
-          <option value="bar">술집</option>
-          <option value="dinner">음식점</option>
-          <option value="cafe">카페</option>
-        </select>
-
-        <button v-on:click="signup" id="btn_signup" />
+          name="radio-sub-component"
+          inline="true"
+          required
+        >
+          <label for="radio-group-2" class="mr-2">기업 계약 여부</label>
+          <b-form-radio name="some-radios" value="true">허용</b-form-radio>
+          <b-form-radio name="some-radios" value="false">거부</b-form-radio>
+        </b-form-radio-group>
+        <div class="form-group row">
+          <label class="col-3" for="signup_info">매장 주소</label>
+          <div class="col-9">
+            <input
+              class="text_box col-12"
+              type="text"
+              id="signup_address_num"
+              placeholder="우편번호"
+              v-on:click="address_function"
+              required
+            />
+            <input
+              class="text_box col-12"
+              type="text"
+              id="signup_address"
+              placeholder="주소"
+              v-on:click="address_function"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-3" for="signup_name">매장 종류</label>
+          <b-form-select v-model="user.type" class="mb-3 col-9" required>
+            <b-form-select-option value="bar">술집</b-form-select-option>
+            <b-form-select-option value="dinner">음식점</b-form-select-option>
+            <b-form-select-option value="cafe" disabled>카페</b-form-select-option>
+          </b-form-select>
+        </div>
+        <button id="btn_signup" type="submit" />
       </div>
     </div>
-  </div>
+  </form>
 </template>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=32e70bb32e511a3745821af6316816f7&libraries=services"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -115,10 +122,18 @@ export default {
     return {
       dropzoneOptions: {
         url: "http://localhost:3000/upload",
-        method:"post",
+        method: "post",
         thumbnailWidth: 150,
         maxFilesize: 0.5,
-        headers: { "My-Awesome-Header": "header value" }
+        // autoProcessQueue: false,
+        uploadMultiple: false,
+        maxFiles: 1,
+        init: function() {
+          this.on("maxfilesexceeded", function(file) {
+            this.removeAllFiles();
+            this.addFile(file);
+          });
+        }
       },
       firstphone: "010",
       secondphone: "7007",
@@ -135,13 +150,18 @@ export default {
         lat: "",
         lon: "",
         info: "이제찬 매장임",
-        imgURL: "",
+        imgURL: {
+          set: function(newValue) {}
+        },
         contractable: "",
         type: ""
       }
     };
   },
   methods: {
+    imageUpload: function(file, res) {
+      this.user.imgURL = res.location;
+    },
     address_function: function() {
       new daum.Postcode({
         oncomplete: function(data) {
@@ -160,40 +180,23 @@ export default {
           this.user.lon = result[0].x;
         }
       });
-      if (
-        !(
-          this.user.sellerId == "" ||
-          this.user.pw == "" ||
-          this.user.name == "" ||
-          this.firstphone == "" ||
-          this.secondphone == "" ||
-          this.thirdphone == "" ||
-          this.user.contractable == "" ||
-          this.user.type == ""
-        )
-      ) {
-        console.log(this.user.sellerId);
-
-        var data = new FormData();
-        console.log(this.$refs.dropzone)
-        var file = this.$refs.photoimage.files;
-        data.append("imgFile", file);
-        try {
-          const resUpload = await this.$http.post("/api/upload", data);
-          this.user.imgURL = resUpload.data.location;
-          const res = await this.$http.post("/api/sellers", this.user);
-          if (res.data.success == true) {
-            console.log(res);
-            alert(res.data.data.name, "님 환영합니다!");
-            window.location.href = "/";
-          } else {
-            alert("error", res.data.err.errors[0].message);
-            console.log(res);
-          }
-        } catch (error) {
-          alert(error);
-          console.log(error);
+      console.log(this.user.imgURL);
+      try {
+        const res = await this.$http.post("/api/sellers", this.user);
+        if (res.data.success == true) {
+          console.log(res);
+          alert(res.data.data.name + "님 환영합니다!");
+          this.$router.push({
+            name: "Login",
+            params: { sellerId: this.user.sellerId }
+          });
+        } else {
+          alert("error", res.data.err.errors[0].message);
+          console.log(res);
         }
+      } catch (error) {
+        alert(error);
+        console.log(error);
       }
     },
     onFileChange: function() {
