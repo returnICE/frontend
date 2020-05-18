@@ -1,22 +1,27 @@
 <template>
   <div>
-    <div id = 'menu_div'>
-        <button v-on:click = "add_function" class = "append_btn"></button>
-        <button v-on:click = "delete_function" class = "delete_btn" ></button>
+    <div v-if = "this.isLoading === false" class = "loading">
+      <img src = '../../assets/loading.gif'>
     </div>
-    <div>
-      <modals-container/>
-    </div>
-    <vue-good-table
-      class = "my-table"
-      @on-selected-rows-change="selectionChanged"
-      :columns="columns"
-      :rows="rows"
-      :select-options="{
-        enabled: true,
-        disableSelectInfo: true,
-      }"
-      styleClass="vgt-table striped"/>
+    <div v-if = "this.isLoading == true">
+      <div id = 'menu_div'>
+          <button v-on:click = "add_function" class = "append_btn"></button>
+          <button v-on:click = "delete_function" class = "delete_btn" ></button>
+      </div>
+      <div>
+        <modals-container/>
+      </div>
+      <vue-good-table
+        class = "my-table"
+        @on-selected-rows-change="selectionChanged"
+        :columns="columns"
+        :rows="rows"
+        :select-options="{
+          enabled: true,
+          disableSelectInfo: true,
+        }"
+        styleClass="vgt-table striped"/>
+      </div>
   </div>
 </template>
 <script>
@@ -32,6 +37,7 @@ export default {
   },
   data: function () {
     return {
+      isLoading: false,
       selectList: [],
       columns: [
         {
@@ -62,9 +68,21 @@ export default {
         this.rows.push({ id: i + 1, name: res.data.menu[i].menuName, price: res.data.menu[i].price, info: res.data.menu[i].info, score: res.data.menu[i].avgScore })
         this.menu_data.push({ id: i + 1, menuId: res.data.menu[i].menuId })
       }
+      this.isLoading = true
     })
   },
   methods: {
+    loadData: function () {
+      this.menu_data = []
+      axios.get('/api/sellers/product', {
+      }).then((res) => {
+        for (let i = 0; i < res.data.menu.length; i++) {
+          this.rows.push({ id: i + 1, name: res.data.menu[i].menuName, price: res.data.menu[i].price, info: res.data.menu[i].info, score: res.data.menu[i].avgScore })
+          this.menu_data.push({ id: i + 1, menuId: res.data.menu[i].menuId })
+        }
+        this.isLoading = true
+      })
+    },
     selectionChanged: function (params) {
       this.selectList = params.selectedRows
     },
@@ -72,7 +90,9 @@ export default {
       for (let i = 0; i < this.selectList.length; i++) {
         for (let j = 0; j < this.menu_data.length; j++) {
           if (this.menu_data[j].id === this.selectList[i].id) {
-            axios.delete(`/api/sellers/product/menu/${this.menu_data[j].menuId}`, {})
+            axios.delete(`/api/sellers/product/menu/${this.menu_data[j].menuId}`, {}).then(
+              this.loadData()
+            )
           }
         }
       }
