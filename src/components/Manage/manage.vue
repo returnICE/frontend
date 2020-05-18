@@ -1,5 +1,9 @@
 <template>
 <div id = "manage">
+  <div v-if = "this.isLoading === false" class = "loading">
+    <img src = '../../assets/loading.gif'>
+  </div>
+  <div v-if = "this.isLoading === true">
     매장이름 : {{name}}<br/>
     주소 : {{address}}<br/>
     전화번호 : {{phone}}<br/>
@@ -10,6 +14,7 @@
     <div>
       <modals-container/>
     </div>
+  </div>
 </div>
 </template>
 <script>
@@ -19,6 +24,7 @@ export default {
   name: 'Manage',
   data: function () {
     return {
+      isLoading: false,
       name: '',
       address: '',
       phone: '',
@@ -36,6 +42,7 @@ export default {
       this.info = res.data.data.info
       this.contractable = res.data.data.contractable === 0 ? 'false' : 'true'
       this.imgURL = res.data.data.imgURL
+      this.isLoading = true
     })
   },
   methods: {

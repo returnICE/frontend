@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div  id = 'customer_div'>
+    <div v-if= "this.isLoading === false" class = "loading">
+      <img src = '../../assets/loading.gif'>
+    </div>
+    <div v-if= "this.isLoading === true" id = 'customer_div'>
       <vue-good-table
         class = "my-table"
         @on-selected-rows-change="selectionChanged"
@@ -30,6 +33,7 @@ export default {
     return {
       selectList: [],
       currentId: 0,
+      isLoading: false,
       columns: [
         {
           label: '이름',
@@ -81,6 +85,7 @@ export default {
         }
         this.rows.push(dic)
       }
+      this.isLoading = true
     })
   },
   methods: {

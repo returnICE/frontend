@@ -1,22 +1,27 @@
 <template>
   <div>
-    <div id = 'sub_div'>
-        <button v-on:click = "add_function" class = "append_btn"></button>
-        <button v-on:click = "delete_function" class = "delete_btn" ></button>
+    <div v-if = "this.isLoading === false" class = "loading">
+      <img src = '../../assets/loading.gif'>
     </div>
-    <div>
-      <modals-container v-on:read_product="read_product"/>
+    <div v-if = "this.isLoading === true">
+      <div id = 'sub_div'>
+          <button v-on:click = "add_function" class = "append_btn"></button>
+          <button v-on:click = "delete_function" class = "delete_btn" ></button>
+      </div>
+      <div>
+        <modals-container v-on:read_product="read_product"/>
+      </div>
+      <vue-good-table
+        class = "my-table"
+        @on-selected-rows-change="selectionChanged"
+        :columns="columns"
+        :rows="rows"
+        :select-options="{
+          enabled: true,
+          disableSelectInfo: true,
+        }"
+        styleClass="vgt-table striped"/>
     </div>
-    <vue-good-table
-      class = "my-table"
-      @on-selected-rows-change="selectionChanged"
-      :columns="columns"
-      :rows="rows"
-      :select-options="{
-        enabled: true,
-        disableSelectInfo: true,
-      }"
-      styleClass="vgt-table striped"/>
   </div>
 </template>
 <script>
@@ -32,6 +37,7 @@ export default {
   },
   data: function () {
     return {
+      isLoading: false,
       sub_data: [],
       selectList: [],
       columns: [
@@ -70,6 +76,7 @@ export default {
         this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '/' + res.data.subItem[i].term + '시간', menu: str, info: res.data.subItem[i].info })
         this.sub_data.push({ id: i + 1, subItemId: res.data.subItem[i].subId })
       }
+      this.isLoading = true
     })
   },
   methods: {
@@ -89,7 +96,6 @@ export default {
       }
     },
     read_product: function () {
-      console.log('테스트')
       axios.get('/api/sellers/product', {
       }).then((res) => {
         this.rows = []
