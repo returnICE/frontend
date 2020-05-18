@@ -135,21 +135,21 @@ export default {
           });
         }
       },
-      firstphone: "010",
-      secondphone: "7007",
-      thirdphone: "9444",
-      pwcollect: "asdasd",
+      firstphone: "",
+      secondphone: "",
+      thirdphone: "",
+      pwcollect: "",
       lat: "",
       lon: "",
       user: {
-        sellerId: "jeky222",
-        pw: "asdasd",
-        name: "이제찬",
+        sellerId: "",
+        pw: "",
+        name: "",
         phone: "",
         address: "",
         lat: "",
         lon: "",
-        info: "이제찬 매장임",
+        info: "",
         imgURL: {
           set: function(newValue) {}
         },
