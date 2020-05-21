@@ -11,6 +11,7 @@
     기업계약여부 : {{contractable}}<br/>
     매장 사진 : {{imgURL}}<br/>
     <button v-on:click = "revicePage">매장 정보 수정하기</button>
+    </div>
     <div>
       <modals-container/>
     </div>
@@ -48,11 +49,14 @@ export default {
   methods: {
     revicePage: function () {
       this.$modal.show(revice, {
+        propInfo: this.info,
+        propImgURL: this.imgURL,
+        propContractable: this.contractable,
         modal: this.$modal
       }, {
         name: 'revice',
-        width: '400px',
-        height: '300px',
+        width: '500px',
+        height: '550px',
         draggable: false
       })
     }
