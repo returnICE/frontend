@@ -1,16 +1,21 @@
 <template>
 <div id = "log">
+  <div v-if = "this.isLoading === false" class = "loading">
+      <img src = '../../assets/loading.gif'>
+  </div>
+  <div v-if = "this.isLoading === true">
   <vue-good-table
       class = "my-table"
       :columns="columns"
       :rows="rows"
       styleClass="vgt-table striped"/>
+  </div>
 </div>
 </template>
 <script>
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   name: 'Log',
   components: {
@@ -18,6 +23,7 @@ export default {
   },
   data: function () {
     return {
+      isLoading: false,
       columns: [
         {
           label: '사용자 아이디',
@@ -40,10 +46,17 @@ export default {
     }
   },
   beforeCreate () {
-
-  },
-  methods: {
-
+    axios.get('./api/sellers/accept', {}).then((res) => {
+      for (let i = 0; i < res.data.customer.length; i++) {
+        this.rows.push({
+          customerId: res.data.customer[i].Customer.name,
+          eatenDate: res.data.customer[i].eatenDate,
+          menu: res.data.customer[i].Menu.menuName,
+          price: res.data.customer[i].Menu.price
+        })
+      }
+      this.isLoading = true
+    })
   }
 }
 </script>
