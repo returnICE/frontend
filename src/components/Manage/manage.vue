@@ -1,12 +1,13 @@
 <template>
-<div id = "manage">
-    매장이름 : {{name}}<br/>
+<div>
+    <div  id = "manage">매장이름 : {{name}}<br/>
     주소 : {{address}}<br/>
     전화번호 : {{phone}}<br/>
     매장정보 : {{info}}<br/>
     기업계약여부 : {{contractable}}<br/>
     매장 사진 : {{imgURL}}<br/>
     <button v-on:click = "revicePage">매장 정보 수정하기</button>
+    </div>
     <div>
       <modals-container/>
     </div>
@@ -41,11 +42,14 @@ export default {
   methods: {
     revicePage: function () {
       this.$modal.show(revice, {
+        propInfo: this.info,
+        propImgURL: this.imgURL,
+        propContractable: this.contractable,
         modal: this.$modal
       }, {
         name: 'revice',
-        width: '400px',
-        height: '300px',
+        width: '500px',
+        height: '550px',
         draggable: false
       })
     }

@@ -160,6 +160,7 @@ export default {
   },
   methods: {
     imageUpload: function(file, res) {
+      console.log(res.location)
       this.user.imgURL = res.location;
     },
     address_function: function() {
