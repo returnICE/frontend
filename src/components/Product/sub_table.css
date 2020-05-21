@@ -2,6 +2,10 @@
     position : static;
     width : 100%
 }
+.loading{
+    float: left;
+    margin-top : 200px;
+}
 #sub_div{
     background : url('../../assets/product_page/tab_background.png');
     -webkit-background-size: cover;
