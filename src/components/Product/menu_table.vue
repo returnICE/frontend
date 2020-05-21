@@ -90,9 +90,9 @@ export default {
       for (let i = 0; i < this.selectList.length; i++) {
         for (let j = 0; j < this.menu_data.length; j++) {
           if (this.menu_data[j].id === this.selectList[i].id) {
-            axios.delete(`/api/sellers/product/menu/${this.menu_data[j].menuId}`, {}).then(
+            axios.delete(`/api/sellers/product/menu/${this.menu_data[j].menuId}`, {}).then(() => {
               this.loadData()
-            )
+            })
           }
         }
       }

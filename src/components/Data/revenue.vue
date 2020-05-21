@@ -8,12 +8,12 @@ export default {
         labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         datasets: [
           {
-            label: '월별 수익',
+            label: '월별 매출',
             pointBackgroundColor: 'white',
             borderWidth: 2,
             borderColor: '#f87979',
             pointBorderColor: '#249ebf',
-            data: [40, 20, 30, 40, 50, 30, 20, 70, 10]
+            data: [1743000, 1803000, 1750000, 1642000, 1742000, 1860000, 1610400, 1500000, 1242000]
           }
         ]
       },
