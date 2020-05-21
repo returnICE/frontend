@@ -71,10 +71,15 @@
     background-size: cover;
 }
 #component{
-    display : inline-block;
+    /* display : inline-block; */
     width :70%;
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.text-baemin{
+    font-family: bamin;
+    src: url('../assets/font/BMHANNAPro.ttf')format('truetype');
 }
