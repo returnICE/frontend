@@ -11,11 +11,10 @@
     기업계약여부 : {{contractable}}<br/>
     매장 사진 : {{imgURL}}<br/>
     <button v-on:click = "revicePage">매장 정보 수정하기</button>
-    </div>
+  </div>
     <div>
       <modals-container/>
     </div>
-  </div>
 </div>
 </template>
 <script>
