@@ -70,7 +70,6 @@ export default {
   beforeCreate () {
     axios.get('/api/sellers/customer', {
     }).then((res) => {
-      console.log(res)
       for (var s of res.data.data) {
         this.currentId += 1
         var dic = {
