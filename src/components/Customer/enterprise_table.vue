@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div  id = 'enterprise_div'>
+    <div v-if= "this.isLoading === false" class = "loading">
+      <img src = '../../assets/loading.gif'>
+    </div>
+    <div v-if="this.isLoading === true" id = 'enterprise_div'>
       <vue-good-table
         class = "my-table"
         @on-selected-rows-change="selectionChanged"
@@ -20,6 +23,7 @@
 <script>
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
+import axios from 'axios'
 export default {
   name: 'enterpriseTable',
   components: {
@@ -28,6 +32,7 @@ export default {
   data: function () {
     return {
       selectList: [],
+      isLoading: false,
       columns: [
         {
           label: '이름',
@@ -54,54 +59,29 @@ export default {
           field: 'status'
         }
       ],
-      rows: [
-        {
-          id: 1,
-          name: 'A기업',
-          phone: '01011112222',
-          address: '서울',
-          month_price: '123123',
-          due_price: '7000',
-          status: '승인'
-        },
-        {
-          id: 2,
-          name: 'wefe기업',
-          phone: '01011112222',
-          address: '서울',
-          month_price: '123123',
-          due_price: '7000',
-          status: '승인'
-        },
-        {
-          id: 3,
-          name: 'zxccv기업',
-          phone: '01011112222',
-          address: '서울',
-          month_price: '123123',
-          due_price: '7000',
-          status: '승인'
-        },
-        {
-          id: 4,
-          name: 'D기업',
-          phone: '01011112222',
-          address: '서울',
-          month_price: '123123',
-          due_price: '7000',
-          status: '대기'
-        }
-      ]
+      rows: []
     }
   },
   methods: {
     selectionChanged: function (params) {
-      console.log(params.selectedRows)
       this.selectList = params.selectedRows
-    },
-    delete_function: function () {
-      console.log('delete')
     }
+  },
+  beforeCreate () {
+    axios.get('/api/sellers/enterprise', {
+    }).then((res) => {
+      for (var s of res.data.data) {
+        this.rows.push({
+          name: s.name,
+          phone: s.phone,
+          address: s.address,
+          month_price: s.amountMonth,
+          due_price: s.amountPerDay,
+          status: s.approval
+        })
+      }
+      this.isLoading = true
+    })
   }
 }
 </script>

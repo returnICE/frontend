@@ -36,7 +36,6 @@ export default {
   beforeCreate () {
     const color = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
     axios.get('/api/sellers/data/menu', {}).then((res) => {
-      console.log(res)
       var colorpoint = 0
       for (var s of res.data.data) {
         var score = []
@@ -60,6 +59,11 @@ export default {
         this.datacollection.datasets.push(temp)
         colorpoint += 1
       }
+      var label = []
+      for (var n = 1; n <= 12; n++) {
+        label.push((new Date().getMonth() + n) % 12 + 1)
+      }
+      this.datacollection.labels = label
       this.renderChart(this.datacollection, this.options)
     })
   }
