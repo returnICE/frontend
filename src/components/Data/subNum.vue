@@ -6,7 +6,7 @@ export default {
   data: function () {
     return {
       datacollection: {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        labels: [],
         datasets: [
           {
             label: '월별 구독자수',
@@ -22,7 +22,8 @@ export default {
         scales: {
           yAxes: [{
             ticks: {
-              beginAZero: true
+              beginAtZero: true,
+              stepSize: 1
             },
             gridLines: {
               display: true

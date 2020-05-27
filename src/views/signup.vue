@@ -181,11 +181,13 @@ export default {
       this.user.phone = this.firstphone + this.secondphone + this.thirdphone;
       this.user.address = document.getElementById("signup_address").value;
       var geocoder = new kakao.maps.services.Geocoder();
-      geocoder.addressSearch(this.user.address, (result, status) => {
+      await geocoder.addressSearch(this.user.address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           this.user.lat = result[0].y;
           this.user.lon = result[0].x;
         }
+        console.log(this.user.lat)
+        console.log(this.user.lon)
       });
       console.log(this.user.imgURL);
       try {
