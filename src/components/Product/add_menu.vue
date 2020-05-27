@@ -31,6 +31,7 @@ export default {
         info: this.info,
         price: parseInt(this.price)
       })
+      this.$emit('loadData')
       this.$emit('close')
     }
   }

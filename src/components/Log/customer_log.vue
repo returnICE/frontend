@@ -50,7 +50,7 @@ export default {
       for (let i = 0; i < res.data.customer.length; i++) {
         this.rows.push({
           customerId: res.data.customer[i].Customer.name,
-          eatenDate: res.data.customer[i].eatenDate,
+          eatenDate: res.data.customer[i].eatenDate.substring(0, 10) + ' ' + res.data.customer[i].eatenDate.substring(11, 19),
           menu: res.data.customer[i].Menu.menuName,
           price: res.data.customer[i].Menu.price
         })
