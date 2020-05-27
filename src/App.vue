@@ -33,4 +33,15 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.btn-custom{
+    background-color: #f87979 !important;
+    border-color: #f87979 !important;
+    color: white !important;
+}
+.btn-custom-ent{
+    background-color: #6964F8 !important;
+    border-color: #6964F8 !important;
+    color: white !important;
+}
 </style>

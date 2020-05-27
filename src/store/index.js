@@ -25,18 +25,30 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    LOGIN ({ commit }, { sellerId, pw }) {
-      return axios.post('/api/sellers/login', { sellerId: sellerId, pw: pw })
-        .then(({ data }) => {
-          if (data.success === true) {
-            commit('LOGIN', data.data)
-            axios.defaults.headers.common['x-access-token'] = data.data
-            localStorage.accessToken = data.data
-            window.location.href = '/Main'
-          } else {
-            alert(data.err)
-          }
-        })
+    LOGIN ({ commit }, { id, pw, type }) {
+      return type === 'seller'
+        ? axios.post('/api/sellers/login', { sellerId: id, pw: pw })
+          .then(({ data }) => {
+            if (data.success === true) {
+              commit('LOGIN', data.data)
+              axios.defaults.headers.common['x-access-token'] = data.data
+              localStorage.accessToken = data.data
+              window.location.href = '/Main'
+            } else {
+              alert(data.err)
+            }
+          })
+        : axios.post('/api/enterprise/login', { enterpriseId: id, pw: pw })
+          .then(({ data }) => {
+            if (data.success === true) {
+              commit('LOGIN', data.data)
+              axios.defaults.headers.common['x-access-token'] = data.data
+              localStorage.accessToken = data.data
+              window.location.href = '/Main'
+            } else {
+              alert(data.err)
+            }
+          })
     },
     LOGOUT ({ commit }) {
       commit('LOGOUT')

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 h-100 text-baemin">
+  <div class="col-12 h-100 " style="font-size: 15px">
     <h3 class="row mx-2 mt-2 justify-content-between">
       <div class>매장 정보 변경</div>
       <button class="btn" @click="modifySellerInfo">저장</button>
@@ -75,7 +75,10 @@ export default {
       console.log(this.propInfo)
       axios.put('api/sellers/myinfo', { info: this.info, imgURL: this.imgURL, contractable: this.contractable }).then(res => {
         console.log(res)
-        alert(res)
+        if (res.data.success) {
+          this.$router.go()
+          alert('변경되었습니다 !')
+        }
       })
     }
   }
