@@ -82,9 +82,9 @@ export default {
         term: termNum,
         menuId: menuList
       }).then((res) => {
+        this.$emit('read_product')
+        this.$emit('close')
       })
-      this.$emit('read_product')
-      this.$emit('close')
     }
   }
 }

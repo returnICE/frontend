@@ -73,7 +73,15 @@ export default {
         for (let j = 0; j < res.data.subItem[i].Menus.length; j++) {
           str += res.data.subItem[i].Menus[j].menuName + ','
         }
-        this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '/' + res.data.subItem[i].term + '시간', menu: str, info: res.data.subItem[i].info })
+        var term = res.data.subItem[i].term + '시간'
+        if (res.data.subItem[i].term === 24 * 7) {
+          term = '주'
+        } else if (res.data.subItem[i].term === 24) {
+          term = '일'
+        } else if (res.data.subItem[i].term === 30 * 24) {
+          term = '월'
+        }
+        this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '회 / ' + term, menu: str, info: res.data.subItem[i].info })
         this.sub_data.push({ id: i + 1, subItemId: res.data.subItem[i].subId })
       }
       this.isLoading = true
@@ -83,11 +91,11 @@ export default {
     selectionChanged: function (params) {
       this.selectList = params.selectedRows
     },
-    delete_function: function () {
+    delete_function: async function () {
       for (let i = 0; i < this.selectList.length; i++) {
         for (let j = 0; j < this.sub_data.length; j++) {
           if (this.sub_data[j].id === this.selectList[i].id) {
-            axios.delete(`/api/sellers/product/sub/${this.sub_data[j].subItemId}`, {})
+            await axios.delete(`/api/sellers/product/sub/${this.sub_data[j].subItemId}`, {})
               .then((res) => {
                 this.read_product()
               })
@@ -96,15 +104,22 @@ export default {
       }
     },
     read_product: function () {
-      axios.get('/api/sellers/product', {
-      }).then((res) => {
-        this.rows = []
+      this.rows = []
+      axios.get('/api/sellers/product', {}).then((res) => {
         for (let i = 0; i < res.data.subItem.length; i++) {
           var str = ''
           for (let j = 0; j < res.data.subItem[i].Menus.length; j++) {
             str += res.data.subItem[i].Menus[j].menuName + ','
           }
-          this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '/' + res.data.subItem[i].term + '시간', menu: str, info: res.data.subItem[i].info })
+          var term = res.data.subItem[i].term + '시간'
+          if (res.data.subItem[i].term === 24 * 7) {
+            term = '주'
+          } else if (res.data.subItem[i].term === 24) {
+            term = '일'
+          } else if (res.data.subItem[i].term === 30 * 24) {
+            term = '월'
+          }
+          this.rows.push({ id: i + 1, name: res.data.subItem[i].subName, price: res.data.subItem[i].price, count: res.data.subItem[i].limitTimes + '회 / ' + term, menu: str, info: res.data.subItem[i].info })
           this.sub_data.push({ id: i + 1, subItemId: res.data.subItem[i].subId })
         }
       })

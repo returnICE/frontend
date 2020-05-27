@@ -22,7 +22,8 @@ export default {
         scales: {
           yAxes: [{
             ticks: {
-              beginAZero: true
+              beginAtZero: true,
+              stepSize: 1
             },
             gridLines: {
               display: true

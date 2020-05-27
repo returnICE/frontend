@@ -9,7 +9,7 @@
           <button v-on:click = "delete_function" class = "delete_btn" ></button>
       </div>
       <div>
-        <modals-container/>
+        <modals-container v-on:loadData="loadData"/>
       </div>
       <vue-good-table
         class = "my-table"
@@ -74,6 +74,7 @@ export default {
   methods: {
     loadData: function () {
       this.menu_data = []
+      this.rows = []
       axios.get('/api/sellers/product', {
       }).then((res) => {
         for (let i = 0; i < res.data.menu.length; i++) {
