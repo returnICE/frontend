@@ -61,6 +61,7 @@
           name="imgFile"
           ref="photoimage"
           id="dropzone"
+          style="text-align:center"
           :options="dropzoneOptions"
           v-on:vdropzone-success="imageUpload"
         ></vue-dropzone>
@@ -128,6 +129,11 @@ export default {
         // autoProcessQueue: false,
         uploadMultiple: false,
         maxFiles: 1,
+        // resizeWidth: 500,
+        resizeMethod:"crop",
+        // resizeHeight: 100,
+        thumbnailWidth: 227,
+        thumbnailHeight: 100,
         init: function() {
           this.on("maxfilesexceeded", function(file) {
             this.removeAllFiles();
