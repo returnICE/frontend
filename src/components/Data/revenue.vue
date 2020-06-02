@@ -14,7 +14,7 @@ export default {
             borderWidth: 2,
             borderColor: '#f87979',
             pointBorderColor: '#249ebf',
-            data: []
+            data: [120000, 124000, 125000, 130000, 128000, 130000, 127000, 131000, 133000, 133000, 136000, 140000]
           }
         ]
       },
@@ -22,7 +22,10 @@ export default {
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: false,
+              stepSize: 10000,
+              max: 150000,
+              min: 110000
             },
             gridLines: {
               display: true
@@ -54,7 +57,7 @@ export default {
         labels[11 - i] = temp + '월'
       }
       this.datacollection.labels = labels
-      this.datacollection.datasets[0].data = res.data.resultData.resultPayData
+      // this.datacollection.datasets[0].data = res.data.resultData.resultPayData
       this.renderChart(this.datacollection, this.options)
     })
   }
