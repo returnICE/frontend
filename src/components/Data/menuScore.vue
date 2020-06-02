@@ -7,7 +7,38 @@ export default {
     return {
       datacollection: {
         labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        datasets: []
+        datasets: [
+          {
+            label: '김치말이국수',
+            backgroundColor: 'rgba(255,255,255,0)',
+            pointBackgroundColor: 'white',
+            borderWidth: 2,
+            borderColor: 'red',
+            pointBorderColor: '#249ebf',
+            lineTension: 0,
+            data: [1.2, 4.2, 3.4, 5, 2.3, 4.2, 4.4, 3.2, 4.5, 5.0, 4.6, 4.2]
+          },
+          {
+            label: '김치찌개',
+            backgroundColor: 'rgba(255,255,255,0)',
+            pointBackgroundColor: 'white',
+            borderWidth: 2,
+            borderColor: 'blue',
+            pointBorderColor: '#249ebf',
+            lineTension: 0,
+            data: [3.5, 4.2, 4.5, 5.0, 4.6, 4.1, 3.2, 3.7, 3.5, 3.0, 2.8, 2.2]
+          },
+          {
+            label: '된장찌개',
+            backgroundColor: 'rgba(255,255,255,0)',
+            pointBackgroundColor: 'white',
+            borderWidth: 2,
+            borderColor: 'green',
+            pointBorderColor: '#249ebf',
+            lineTension: 0,
+            data: [1.0, 1.4, 1.8, 2.4, 2.3, 3.1, 3.5, 3.7, 3.5, 3.9, 4.3, 4.5]
+          }
+        ]
       },
       options: {
         scales: {
@@ -36,9 +67,9 @@ export default {
     }
   },
   beforeCreate () {
-    const color = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+    // const color = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
     axios.get('/api/sellers/data/menu', {}).then((res) => {
-      var colorpoint = 0
+      // var colorpoint = 0
       for (var s of res.data.data) {
         var score = []
         for (let i = 0; i < s.score.length; i++) {
@@ -48,6 +79,7 @@ export default {
             score.push(0)
           }
         }
+        /*
         const temp = {
           label: s.menuName,
           backgroundColor: 'rgba(255,255,255,0)',
@@ -58,12 +90,13 @@ export default {
           lineTension: 0,
           data: score
         }
-        this.datacollection.datasets.push(temp)
-        colorpoint += 1
+        */
+        // this.datacollection.datasets.push(temp)
+        // colorpoint += 1
       }
       var label = []
       for (var n = 1; n <= 12; n++) {
-        label.push((new Date().getMonth() + n) % 12 + 1)
+        label.push(((new Date().getMonth() + n) % 12 + 1) + '월')
       }
       this.datacollection.labels = label
       this.renderChart(this.datacollection, this.options)

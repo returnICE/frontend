@@ -51,7 +51,7 @@ export default {
   },
   data: function () {
     return {
-      mode: ''
+      mode: 'customer'
     }
   },
   methods: {
