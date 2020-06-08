@@ -2,7 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import SignUp from '../views/signup.vue'
+import SignUpEnt from '../views/signupEnt.vue'
 import Main from '../views/main.vue'
+import MainEnt from '../views/mainEnt.vue'
 
 Vue.use(VueRouter)
 
@@ -23,9 +25,20 @@ const routes = [
     component: SignUp
   },
   {
+    path: '/signUpEnt',
+    name: 'SignUp',
+    component: SignUpEnt
+  },
+  {
     path: '/main',
     name: 'main',
     component: Main,
+    beforeEnter: requireAuth()
+  },
+  {
+    path: '/mainEnt',
+    name: 'mainEnt',
+    component: MainEnt,
     beforeEnter: requireAuth()
   }
 ]

@@ -38,13 +38,13 @@ export default new Vuex.Store({
               alert(data.err)
             }
           })
-        : axios.post('/api/enterprise/login', { enterpriseId: id, pw: pw })
+        : axios.post('/api/enterprises/login', { enterpriseId: id, pw: pw })
           .then(({ data }) => {
             if (data.success === true) {
               commit('LOGIN', data.data)
               axios.defaults.headers.common['x-access-token'] = data.data
               localStorage.accessToken = data.data
-              window.location.href = '/Main'
+              window.location.href = '/MainEnt'
             } else {
               alert(data.err)
             }
