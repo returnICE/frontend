@@ -89,3 +89,7 @@
     font-family: bamin;
     src: url('../assets/font/BMHANNAPro.ttf')format('truetype');
 }
+.logo{
+    float:left;
+    margin-top : -65px;
+}

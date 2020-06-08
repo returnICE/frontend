@@ -1,0 +1,12 @@
+.addcampain{
+    font-family: bamin;
+    width: 100%;
+    margin-top: 20px;
+}
+.input_date{
+    display: inline;
+    border-color : gray;
+}
+.form_input{
+    vertical-align: middle;
+}
