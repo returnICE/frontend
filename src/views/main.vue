@@ -1,6 +1,7 @@
 <template>
     <div id = "main">
         <div id = "top">
+          <img src='../assets/login_page/logo.png' class="logo"/>
         </div>
         <div id = "side">
             <button v-on:click = "sideclick('customer')" class = "side_btn" id = "btn_customer"></button>
@@ -34,11 +35,11 @@
 </template>
 <script>
 import Customer from '../components/Customer/customer.vue'
-import Campain from '../components/campain.vue'
 import Data from '../components/Data/data.vue'
 import Product from '../components/Product/product.vue'
 import Log from '../components/Log/log.vue'
 import Manage from '../components/Manage/manage.vue'
+import Campain from '../components/Campain/campain.vue'
 
 export default {
   components: {
