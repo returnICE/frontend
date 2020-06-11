@@ -6,21 +6,16 @@
     <div v-if="this.isLoading === true" id="customer_div">
       <vue-good-table
         class="my-table"
-        @on-selected-rows-change="selectionChanged"
         :columns="columns"
         :rows="rows"
         :search-options="{
           enabled: true
         }"
-        :select-options="{
-          enabled: true,
-          disableSelectInfo: true,
-        }"
         styleClass="vgt-table striped"
       >
         <template slot="table-row" slot-scope="props">
-          <span v-if="props.column.field == 'cancel' && props.row.cancel=='O'"> O<b-button class="ml-3" variant="outline-secondary">REMOVE</b-button></span>
-          <span v-else-if="props.column.field == 'cancel' && props.row.cancel=='X'"> X<b-button class="ml-3" variant="outline-secondary">Add</b-button></span>
+          <span v-if="props.column.field == 'cancel' && props.row.cancel=='O'"> O<b-button class="ml-3" variant="outline-secondary" v-on:click="remove(props.row)" >REMOVE</b-button></span>
+          <span v-else-if="props.column.field == 'cancel' && props.row.cancel=='X'"> X<b-button class="ml-3" variant="outline-secondary" v-on:click="add(props.row)">Add</b-button></span>
         </template>
       </vue-good-table>
     </div>
@@ -66,7 +61,9 @@ export default {
       console.log(res.data.data)
       for (var s of res.data.data) {
         this.currentId += 1
+        console.log(res.data.data)
         var dic = {
+          meberId: s.memberId,
           id: this.currentId,
           name: s.Customer.customerId,
           phone: s.Customer.phone,
@@ -75,13 +72,24 @@ export default {
         }
         this.rows.push(dic)
       }
-      this.rows.push({ id: 'asd', name: 'mname', phone: '91920405555', birth: '2020-20-01', cancel: 'O' })
+      this.rows.push({ id: 'sample', name: '이름', phone: '91920405555', birth: '2020-20-01', cancel: 'O' })
       this.isLoading = true
     })
   },
   methods: {
     selectionChanged: function (params) {
       this.selectList = params.selectedRows
+    },
+    remove: function (params) {
+      axios.delete(`/api/enterprises/member/${params.meberId}`).then(res => {
+        console.log(res.data)
+      })
+    },
+    add: function (params) {
+      axios.put('/api/enterprises/member', { approval: 1, customerId: params.name }).then(res => {
+        console.log(res.data.success)
+        if (res.data.success) alert('추가되었습니다!')
+      })
     }
   }
 }
