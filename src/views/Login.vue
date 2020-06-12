@@ -36,7 +36,7 @@
           <div class="col-12 justify-content-center">
             <button v-if="!ent" v-on:click="login(sellerId,pw,'seller')" class="mt-4 btn  col-11 btn-custom rounded-pill">로그인</button>
           <button v-else v-on:click="login(enterpriseId,pw,'enterprise')" class="mt-4 btn  col-11 btn-custom-ent rounded-pill">로그인</button>
-          <button v-on:click="signUp" class="mt-2 btn col-11  rounded-pill" :class="{'btn-custom':!ent, 'btn-custom-ent':ent}">회원가입</button>
+          <button v-on:click="ent?signUpEntertprise():signUp()" class="mt-2 btn col-11  rounded-pill" :class="{'btn-custom':!ent, 'btn-custom-ent':ent}">회원가입</button>
           </div>
       </div>
     </div>
@@ -55,11 +55,17 @@ export default {
   created () {
     if (this.$route.params.sellerId) {
       this.sellerId = this.$route.params.sellerId
+    } else if (this.$route.params.enterpriseId) {
+      this.ent = true
+      this.enterpriseId = this.$route.params.enterpriseId
     }
   },
   methods: {
     signUp: function () {
       window.location.href = '/signUp'
+    },
+    signUpEntertprise: function () {
+      window.location.href = '/signUpEnt'
     },
     login: function (id, pw, type) {
       this.$store
