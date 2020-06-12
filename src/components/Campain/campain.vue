@@ -67,15 +67,12 @@ export default {
   },
   methods: {
     selectionChanged (params) {
-      console.log(params)
       this.selectList = params.selectedRows
     },
     async deleteCampain () {
-      console.log('aa')
       for (var i of this.selectList) {
         await axios.delete('api/sellers/campaign/' + i.campaignId, {
         }).then((res) => {
-          console.log('success')
           this.readData()
         })
       }
@@ -95,9 +92,10 @@ export default {
       axios.get('/api/sellers/campaign', {
       }).then((res) => {
         for (var s of res.data.data) {
+          var transmitDate = s.transmitDate.slice(0, 10) + ' ' + s.transmitDate.slice(11, 19)
           var dic = {
             campaignId: s.campaignId,
-            transmitDate: s.transmitDate,
+            transmitDate: transmitDate,
             body: s.body,
             targetOp: s.targetOp,
             title: s.title
@@ -111,9 +109,10 @@ export default {
     axios.get('/api/sellers/campaign', {
     }).then((res) => {
       for (var s of res.data.data) {
+        var transmitDate = s.transmitDate.slice(0, 10) + ' ' + s.transmitDate.slice(11, 19)
         var dic = {
           campaignId: s.campaignId,
-          transmitDate: s.transmitDate,
+          transmitDate: transmitDate,
           body: s.body,
           targetOp: s.targetOp,
           title: s.title
