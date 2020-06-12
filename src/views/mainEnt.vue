@@ -1,23 +1,21 @@
 <template>
     <div id = "main">
         <div id = "top">
+          <img src='../assets/login_page/logoEnt.png' class="logo"/>
         </div>
         <div id = "side">
             <button v-on:click = "sideclick('customer')" class = "side_btn" id = "btn_customer"></button>
             <button v-on:click = "sideclick('data')" class = "side_btn" id = "btn_data"></button>
             <button v-on:click = "sideclick('campain')" class = "side_btn" id = "btn_campain"></button>
-            <button v-on:click = "sideclick('product')" class = "side_btn" id = "btn_product"></button>
-            <button v-on:click = "sideclick('log')" class = "side_btn" id = "btn_log"></button>
-            <button v-on:click = "sideclick('manage')" class = "side_btn" id = "btn_manage"></button>
         </div>
         <div id = "component">
             <div v-if = "mode == 'customer'">
                 <customer></customer>
             </div>
-            <!-- <div v-if = "mode == 'data'">
-                <Data></Data>
+             <div v-if = "mode == 'data'">
+                <Search></Search>
             </div>
-            <div v-if = "mode == 'campain'">
+            <!--<div v-if = "mode == 'campain'">
                 <campain></campain>
             </div>
             <div v-if = "mode == 'product'">
@@ -34,6 +32,7 @@
 </template>
 <script>
 import Customer from '../components/Enterprise/customer.vue'
+import Search from '../components/Enterprise/search.vue'
 // import Campain from '../components/campain.vue'
 // import Data from '../components/Data/data.vue'
 // import Product from '../components/Product/product.vue'
@@ -42,7 +41,8 @@ import Customer from '../components/Enterprise/customer.vue'
 
 export default {
   components: {
-    Customer
+    Customer,
+    Search
   },
   data: function () {
     return {
@@ -54,37 +54,96 @@ export default {
       var customerBtn = document.getElementById('btn_customer')
       var dataBtn = document.getElementById('btn_data')
       var campainBtn = document.getElementById('btn_campain')
-      var productBtn = document.getElementById('btn_product')
-      var logBtn = document.getElementById('btn_log')
-      var manageBtn = document.getElementById('btn_manage')
-      customerBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_customer.png') + ')'
-      dataBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_data.png') + ')'
-      campainBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_campain.png') + ')'
-      productBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_product.png') + ')'
-      logBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_log.png') + ')'
-      manageBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_manage.png') + ')'
+      customerBtn.style.backgroundImage = 'url(' + require('../assets/enterprise/member_btn.png') + ')'
+      dataBtn.style.backgroundImage = 'url(' + require('../assets/enterprise/findseller_btn.png') + ')'
+      campainBtn.style.backgroundImage = 'url(' + require('../assets/enterprise/contract_btn.png') + ')'
       this.mode = message
       if (this.mode === 'customer') {
-        customerBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_customer_select.png') + ')'
+        customerBtn.style.backgroundImage = 'url(' + require('../assets/enterprise/member_cbtn.png') + ')'
       }
       if (this.mode === 'data') {
-        dataBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_data_select.png') + ')'
+        dataBtn.style.backgroundImage = 'url(' + require('../assets/enterprise/findseller_cbtn.png') + ')'
       }
       if (this.mode === 'campain') {
-        campainBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_campain_select.png') + ')'
-      }
-      if (this.mode === 'product') {
-        productBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_product_select.png') + ')'
-      }
-      if (this.mode === 'log') {
-        logBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_log_select.png') + ')'
-      }
-      if (this.mode === 'manage') {
-        manageBtn.style.backgroundImage = 'url(' + require('../assets/side_bar/btn_manage_select.png') + ')'
+        campainBtn.style.backgroundImage = 'url(' + require('../assets/enterprise/contract_cbtn.png') + ')'
       }
     }
   }
 }
 </script>
-<style src = "./main.css">
+<style scoped>
+#top{
+    background : url('../assets/enterprise/tab_background.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width : 100%;
+    height : 90px;
+    position: fixed;
+    z-index: 1;
+}
+#main{
+    width : 100%;
+    height : 100%;
+}
+#side{
+    background : url('../assets/enterprise/virtical_background.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position : fixed;
+    margin-top: 90px;
+    width : 180px;
+    height : 100%;
+}
+.side_btn{
+    width : 100%;
+    height : 70px;
+    border : none;
+    cursor : pointer;
+    outline : 0;
+}
+#btn_customer{
+    background : url('../assets/enterprise/member_cbtn.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#btn_data{
+    background : url('../assets/enterprise/findseller_btn.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#btn_campain{
+    background : url('../assets/enterprise/contract_btn.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#component{
+    /* display : inline-block; */
+    width :70%;
+    position: relative;
+    top: 90px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    z-index: 0;
+}
+
+.text-baemin{
+    font-family: bamin;
+    src: url('../assets/font/BMHANNAPro.ttf')format('truetype');
+}
+.logo{
+    float:left;
+    margin-top : -65px;
+}
 </style>
