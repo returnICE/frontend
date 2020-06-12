@@ -123,7 +123,7 @@ export default {
       }
       axios.post('/api/sellers/campaign', data).then(
         (res) => {
-          console.log('success')
+          this.$emit('readData')
           this.$emit('close')
         }
       )
