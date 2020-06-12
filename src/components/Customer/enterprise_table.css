@@ -16,3 +16,19 @@
     float: left;
     margin-top : 200px;
 }
+.accept_btn{
+    border-radius: 10px;
+    background-color: rgb(119, 119, 255);
+    font-family: bamin;
+    color : white;
+    border-width: 2px;
+    margin-left: 5px;
+}
+.deny_btn{
+    border-radius: 10px;
+    background-color: rgb(255, 119, 119);
+    font-family: bamin;
+    color : white;
+    border-width: 2px;
+    margin-left: 5px;
+}

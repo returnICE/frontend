@@ -6,17 +6,22 @@
     <div v-if="this.isLoading === true" id = 'enterprise_div'>
       <vue-good-table
         class = "my-table"
-        @on-selected-rows-change="selectionChanged"
         :columns="columns"
         :rows="rows"
         :search-options="{
           enabled: true
         }"
-        :select-options="{
-          enabled: true,
-          disableSelectInfo: true,
-        }"
-        styleClass="vgt-table striped"/>
+        styleClass="vgt-table striped">
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'action' && props.formattedRow['status'] == '신청'">
+            <button v-on:click = "acceptEvent(props.row.enterpriseId)" class = "accept_btn">승인</button>
+            <button v-on:click = "denyEvent(props.row.enterpriseId)" class = "deny_btn">거부</button>
+          </span>
+          <span v-else>
+            {{props.formattedRow[props.column.field]}}
+          </span>
+        </template>
+      </vue-good-table>
     </div>
   </div>
 </template>
@@ -57,27 +62,68 @@ export default {
         {
           label: '계약 상태',
           field: 'status'
+        },
+        {
+          label: '승인 / 거부',
+          field: 'action'
         }
       ],
       rows: []
     }
   },
   methods: {
-    selectionChanged: function (params) {
-      this.selectList = params.selectedRows
+    acceptEvent: function (enterpriseId) {
+      axios.put('api/sellers/enterprise/accept', {
+        enterpriseId: enterpriseId
+      }).then((res) => {
+        this.Loading()
+      })
+    },
+    denyEvent: function (enterpriseId) {
+      axios.put('api/sellers/enterprise/deny', {
+        enterpriseId: enterpriseId
+      }).then((res) => {
+        this.Loading()
+      })
+    },
+    Loading: function () {
+      this.rows = []
+      this.isLoading = false
+      axios.get('/api/sellers/enterprise', {
+      }).then((res) => {
+        for (var s of res.data.data) {
+          var approve = s.approval === 1 ? '승인' : s.approval === 0 ? '신청' : '거부'
+          this.rows.push({
+            enterpriseId: s.enterpriseId,
+            name: s.name,
+            phone: s.phone,
+            address: s.address,
+            month_price: s.amountMonth,
+            due_price: s.amountPerDay,
+            status: approve
+          })
+        }
+        this.isLoading = true
+      })
     }
   },
   beforeCreate () {
     axios.get('/api/sellers/enterprise', {
     }).then((res) => {
       for (var s of res.data.data) {
+        var approve = s.approval === 1 ? '승인' : s.approval === 0 ? '신청' : '거부'
+        var address = s.address
+        if (address.length > 20) {
+          address = '...' + address.slice(address.length - 20, address.length)
+        }
         this.rows.push({
+          enterpriseId: s.enterpriseId,
           name: s.name,
           phone: s.phone,
-          address: s.address,
+          address: address,
           month_price: s.amountMonth,
           due_price: s.amountPerDay,
-          status: s.approval
+          status: approve
         })
       }
       this.isLoading = true
