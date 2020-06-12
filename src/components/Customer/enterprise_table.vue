@@ -12,11 +12,18 @@
         :search-options="{
           enabled: true
         }"
-        :select-options="{
-          enabled: true,
-          disableSelectInfo: true,
-        }"
-        styleClass="vgt-table striped"/>
+        styleClass="vgt-table striped">
+        <template slot="table-row" slot-scope="props">
+          <span v-if="props.column.field == 'status' && props.formattedRow[props.column.field] == '신청'">
+            {{props.formattedRow[props.column.field]}}
+            <button v-on:click = "acceptEvent(props.row.enterpriseId)">승인</button>
+            <button v-on:click = "denyEvent(props.row.enterpriseId)">거부</button>
+          </span>
+          <span v-else>
+            {{props.formattedRow[props.column.field]}}
+          </span>
+        </template>
+      </vue-good-table>
     </div>
   </div>
 </template>
@@ -65,19 +72,55 @@ export default {
   methods: {
     selectionChanged: function (params) {
       this.selectList = params.selectedRows
+    },
+    acceptEvent: function (enterpriseId) {
+      axios.put('api/sellers/enterprise/accept', {
+        enterpriseId: enterpriseId
+      }).then((res) => {
+        this.Loading()
+      })
+    },
+    denyEvent: function (enterpriseId) {
+      axios.put('api/sellers/enterprise/deny', {
+        enterpriseId: enterpriseId
+      }).then((res) => {
+        this.Loading()
+      })
+    },
+    Loading: function () {
+      this.rows = []
+      this.isLoading = false
+      axios.get('/api/sellers/enterprise', {
+      }).then((res) => {
+        for (var s of res.data.data) {
+          var approve = s.approval === 1 ? '승인' : s.approval === 0 ? '신청' : '거부'
+          this.rows.push({
+            enterpriseId: s.enterpriseId,
+            name: s.name,
+            phone: s.phone,
+            address: s.address,
+            month_price: s.amountMonth,
+            due_price: s.amountPerDay,
+            status: approve
+          })
+        }
+        this.isLoading = true
+      })
     }
   },
   beforeCreate () {
     axios.get('/api/sellers/enterprise', {
     }).then((res) => {
       for (var s of res.data.data) {
+        var approve = s.approval === 1 ? '승인' : s.approval === 0 ? '신청' : '거부'
         this.rows.push({
+          enterpriseId: s.enterpriseId,
           name: s.name,
           phone: s.phone,
           address: s.address,
           month_price: s.amountMonth,
           due_price: s.amountPerDay,
-          status: s.approval
+          status: approve
         })
       }
       this.isLoading = true
