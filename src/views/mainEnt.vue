@@ -3,12 +3,12 @@
         <div id = "top">
           <img src='../assets/login_page/logoEnt.png' class="logo"/>
         </div>
-        <div id = "side">
+        <div id = "side" style="z-index: 1000;">
             <button v-on:click = "sideclick('customer')" class = "side_btn" id = "btn_customer"></button>
             <button v-on:click = "sideclick('data')" class = "side_btn" id = "btn_data"></button>
             <button v-on:click = "sideclick('campain')" class = "side_btn" id = "btn_campain"></button>
         </div>
-        <div id = "component">
+        <div class = "comp">
             <div v-if = "mode == 'customer'">
                 <customer></customer>
             </div>
@@ -126,15 +126,12 @@ export default {
     -o-background-size: cover;
     background-size: cover;
 }
-#component{
+.comp{
     /* display : inline-block; */
-    width :70%;
     position: relative;
     top: 90px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-left: 200px;
+    margin-right: 20px;
     z-index: 0;
 }
 

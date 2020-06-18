@@ -3,7 +3,7 @@
         <div id = "top">
           <img src='../assets/login_page/logo.png' class="logo"/>
         </div>
-        <div id = "side">
+        <div id = "side" style="z-index: 1000;">
             <button v-on:click = "sideclick('customer')" class = "side_btn" id = "btn_customer"></button>
             <button v-on:click = "sideclick('data')" class = "side_btn" id = "btn_data"></button>
             <button v-on:click = "sideclick('campain')" class = "side_btn" id = "btn_campain"></button>
