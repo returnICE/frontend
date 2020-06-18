@@ -3,25 +3,29 @@
     <div v-if="this.isLoading === false" class="loading">
       <img src="../../assets/loading.gif" />
     </div>
-    <div v-if="this.isLoading === true" id="customer_div">
+    <div v-else id="customer_div">
       <vue-good-table
-        class="my-table"
-        :columns="columns"
-        :rows="rows"
+        :pagination-options="{
+          enabled: true,
+        }"
         :search-options="{
           enabled: true
         }"
-        styleClass="vgt-table striped"
+        :totalRows="1000"
+        :rows="rows"
+        :columns="columns"
+        @on-row-click="onRowClick"
+        styleClass="vgt-table condensed text-baemin "
       >
-        <template slot="table-row" slot-scope="props">
-          <span v-if="props.column.field == 'cancel' && props.row.cancel=='O'"> O<b-button class="ml-3" variant="outline-secondary" v-on:click="remove(props.row)" >REMOVE</b-button></span>
-          <span v-else-if="props.column.field == 'cancel' && props.row.cancel=='X'"> X<b-button class="ml-3" variant="outline-secondary" v-on:click="add(props.row)">Add</b-button></span>
-        </template>
       </vue-good-table>
+    </div>
+    <div>
+      <modals-container/>
     </div>
   </div>
 </template>
 <script>
+import detail from './detail.vue'
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
 import axios from 'axios'
@@ -30,73 +34,78 @@ export default {
   components: {
     VueGoodTable
   },
+  // computed: {
+  //   rows: function () {
+  //     return this.row_data
+  //   }
+  // },
   data: function () {
     return {
+      isLoading: false,
+      rows: [],
+      totalRecords: 0,
+      serverParams: {
+        columnFilters: {
+        },
+        sort: {
+          field: '',
+          type: ''
+        },
+        page: 0,
+        perPage: 5
+      },
       selectList: [],
       currentId: 0,
-      isLoading: false,
       columns: [
-        {
-          label: '이름',
-          field: 'name'
-        },
-        {
-          label: '전화번호',
-          field: 'phone'
-        },
-        {
-          label: '생년월일',
-          field: 'birth'
-        },
-        {
-          label: '승인 여부',
-          field: 'cancel'
-        },
-        {
-          label: '구독권 개수',
-          field: 'totalSubs'
-        }
-      ],
-      rows: []
+        { field: 'name', label: '이름', width: '100px' },
+        { field: 'address', label: '주소', width: '100px', tdClass: 'tdClassFunc' },
+        { field: 'type', label: '타입', width: '100px' },
+        { field: 'contractable', label: '계약허용', type: 'number', width: '100px' },
+        { field: 'totalSubs', label: '구독자 수', type: 'number', width: '100px' }
+      ]
     }
   },
-  beforeCreate () {
-    axios.post('/api/search/ent', { page: 0 }).then(res => {
-      for (var s of res.data.sellerdata) {
-        this.currentId += 1
-        var dic = {
-          meberId: s.sellerId,
-          id: this.currentId,
-          name: s.name,
-          phone: s.phone,
-          birth: s.type,
-          totalSubs: s.totalSubs,
-          cancel: s.approval === 1 ? 'O' : 'X'
-        }
-        this.rows.push(dic)
-      }
-      this.isLoading = true
-    })
+
+  mounted () {
+    this.loadItems()
   },
   methods: {
+    loadItems () {
+      this.isLoading = true
+      axios.post('/api/search/ent', { data: this.serverParams }).then(res => {
+        console.log(res.data.sellerdata)
+        this.rows = res.data.sellerdata
+        this.isLoading = true
+      })
+    },
+    onColumnFilter (params) {
+      this.updateParams(params)
+      this.loadItems()
+    },
     selectionChanged: function (params) {
       this.selectList = params.selectedRows
     },
-    remove: function (params) {
-      axios.delete(`/api/enterprises/member/${params.meberId}`).then(res => {
-        console.log(res.data)
+    onRowClick: function (params) {
+      this.$modal.show(detail, {
+        seller: params.row,
+        modal: this.$modal
+      }, {
+        name: 'detail',
+        width: '500px',
+        height: '550px',
+        draggable: false
       })
     },
-    add: function (params) {
-      axios.put('/api/enterprises/member', { approval: 1, customerId: params.name }).then(res => {
-        console.log(res.data.success)
-        if (res.data.success) alert('추가되었습니다!')
-      })
+    tdClassFunc (row) {
+      if (row.field > 50) {
+        return 'red-class'
+      }
+      return 'blue-class'
     }
   }
 }
 </script>
-<style scoped>
+<style>
 #customer_tab {
   background: url("../../assets/customer_page/customer_tab.png");
   -webkit-background-size: cover;
@@ -124,5 +133,21 @@ export default {
 #menu_bar {
   float: left;
   margin-top: 50px;
+}
+.text-overflow{
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+  width:560px;
+  max-height:24px;
+}
+.font-xsmall{
+  font-size: small !important;
+}
+.red-class{
+  color:red;
+}
+.blue-class{
+  color:blue;
 }
 </style>
