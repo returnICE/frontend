@@ -72,7 +72,6 @@ export default {
         }
         this.rows.push(dic)
       }
-      this.rows.push({ id: 'sample', name: '이름', phone: '91920405555', birth: '2020-20-01', cancel: 'O' })
       this.isLoading = true
     })
   },

@@ -73,8 +73,8 @@
           required
         >
           <label for="radio-group-2" class="mr-2">기업 계약 여부</label>
-          <b-form-radio name="some-radios" value="true">허용</b-form-radio>
-          <b-form-radio name="some-radios" value="false">거부</b-form-radio>
+          <b-form-radio name="some-radios" value="1">허용</b-form-radio>
+          <b-form-radio name="some-radios" value="0">거부</b-form-radio>
         </b-form-radio-group>
         <div class="form-group row">
           <label class="col-3" for="signup_info">매장 주소</label>
@@ -102,7 +102,7 @@
           <b-form-select v-model="user.type" class="mb-3 col-9" required>
             <b-form-select-option value="bar">술집</b-form-select-option>
             <b-form-select-option value="dinner">음식점</b-form-select-option>
-            <b-form-select-option value="cafe" disabled>카페</b-form-select-option>
+            <b-form-select-option value="cafe" >카페</b-form-select-option>
           </b-form-select>
         </div>
         <button id="btn_signup" type="submit" />
