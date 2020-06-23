@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <div v-if="this.isLoading === false" class="loading">
-      <img src="../../assets/loading.gif" />
+  <div id="search-wrap">
+   <div v-if="this.isLoading === false" class="loading">
+      <b-spinner class="my-5" style="width: 10rem; height: 10rem; border: 1em solid currentColor; border-right-color: transparent;" label="Large Spinner"></b-spinner>
+      <h2>로딩 중 ...</h2>
+      <h5>Let Eat, Go</h5>
     </div>
-    <div v-else id="customer_div">
+    <div v-else id="customer_div" class="shadow rounded border">
       <vue-good-table
         :pagination-options="{
           enabled: true,
@@ -15,7 +17,7 @@
         :rows="rows"
         :columns="columns"
         @on-row-click="onRowClick"
-        styleClass="vgt-table condensed text-baemin "
+        styleClass="vgt-table condensed text-baemin"
       >
       </vue-good-table>
     </div>
@@ -71,9 +73,7 @@ export default {
   },
   methods: {
     loadItems () {
-      this.isLoading = true
       axios.post('/api/search/ent', { data: this.serverParams }).then(res => {
-        console.log(res.data.sellerdata)
         this.rows = res.data.sellerdata
         this.isLoading = true
       })
@@ -106,6 +106,11 @@ export default {
 }
 </script>
 <style>
+#search-wrap {
+  width: 100%;
+  padding: 20px 50px;
+}
+
 #customer_tab {
   background: url("../../assets/customer_page/customer_tab.png");
   -webkit-background-size: cover;
