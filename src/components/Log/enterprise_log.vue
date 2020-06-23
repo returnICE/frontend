@@ -10,7 +10,7 @@
 <script>
 import 'vue-good-table/dist/vue-good-table.css'
 import { VueGoodTable } from 'vue-good-table'
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   name: 'Log',
   components: {
@@ -21,7 +21,7 @@ export default {
       columns: [
         {
           label: '기업 이름',
-          field: 'enterpriseId'
+          field: 'name'
         },
         {
           label: '사용 일자',
@@ -29,7 +29,7 @@ export default {
         },
         {
           label: '이용 메뉴',
-          field: 'menu'
+          field: 'menuName'
         },
         {
           label: '메뉴 가격',
@@ -40,7 +40,13 @@ export default {
     }
   },
   beforeCreate () {
-
+    axios.get('/api/sellers/enterprise/log', {}).then((res) => {
+      this.rows = res.data.result
+      for (var s of this.rows) {
+        console.log(s)
+        s.eatenDate = s.eatenDate.substring(0, 10) + ' ' + s.eatenDate.substring(11, 19)
+      }
+    })
   },
   methods: {
 

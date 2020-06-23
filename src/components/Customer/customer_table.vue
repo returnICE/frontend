@@ -6,15 +6,10 @@
     <div v-if= "this.isLoading === true" id = 'customer_div'>
       <vue-good-table
         class = "my-table"
-        @on-selected-rows-change="selectionChanged"
         :columns="columns"
         :rows="rows"
         :search-options="{
           enabled: true
-        }"
-        :select-options="{
-          enabled: true,
-          disableSelectInfo: true,
         }"
         styleClass="vgt-table striped"/>
     </div>
@@ -86,11 +81,6 @@ export default {
       }
       this.isLoading = true
     })
-  },
-  methods: {
-    selectionChanged: function (params) {
-      this.selectList = params.selectedRows
-    }
   }
 }
 </script>

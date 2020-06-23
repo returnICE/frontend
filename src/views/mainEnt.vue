@@ -1,7 +1,8 @@
 <template>
   <div id="main" class="text-baemin">
-    <div id="top">
+    <div class="row justify-content-between"  id="top">
       <a href="/MainEnt"><img src="../assets/login_page/logoEnt.png"  class="logo" /></a>
+      <div><a href = "../"  v-on:click = "logout" id = "logout"><h2>로그아웃</h2></a></div>
     </div>
     <div id="side" style="z-index: 1000;">
       <button @click="mode='customer'" :class="{'btn-clicked':mode=='customer'}" class="side_btn btn-border" id="btn_customer">사원 관리</button>
@@ -40,34 +41,19 @@ export default {
     return {
       mode: 'customer'
     }
+  },
+  methods: {
+    logout: function () {
+      this.$store
+        .dispatch('LOGOUT', {})
+        .then(() => {
+          alert('로그아웃 되었습니다.')
+        })
+        .catch(({ message }) => {
+          this.msg = message
+        })
+    }
   }
-  // methods: {
-  //   sideclick: function (message) {
-  //     var logBtn = document.getElementById('btn_log')
-  //     var customerBtn = document.getElementById('btn_customer')
-  //     var dataBtn = document.getElementById('btn_data')
-  //     customerBtn.style.backgroundColor = '#F2F2F2'
-  //     customerBtn.style.color = '#2E3559'
-  //     dataBtn.style.backgroundColor = '#F2F2F2'
-  //     dataBtn.style.color = '#2E3559'
-  //     logBtn.style.backgroundColor = '#F2F2F2'
-  //     logBtn.style.color = '#2E3559'
-  //     this.mode = message
-  //     if (this.mode === 'customer') {
-  //       customerBtn.style.backgroundColor = '#2E3559'
-  //       customerBtn.style.color = '#FFF'
-  //       customerBtn.style.borderLeft = '2em solid #DAD4DF'
-  //     }
-  //     if (this.mode === 'data') {
-  //       dataBtn.class
-  //     }
-  //     if (this.mode === 'log') {
-  //       logBtn.style.backgroundColor = '#2E3559'
-  //       logBtn.style.color = '#FFF'
-  //       logBtn.style.borderLeft = '2em solid #DAD4DF'
-  //     }
-  //   }
-  // }
 }
 </script>
 <style scoped>
