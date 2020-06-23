@@ -103,5 +103,5 @@ export default {
   }
 }
 </script>
-<style src = "./main.css">
+<style src = "./main.css" scoped>
 </style>

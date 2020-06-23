@@ -15,8 +15,8 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height : 100%;
   width : 100%;
+  height: 100%;
   top:0;
   left: 0;
 }
@@ -43,5 +43,9 @@
     background-color: #6964F8 !important;
     border-color: #6964F8 !important;
     color: white !important;
+}
+.text-baemin{
+    font-family: bamin;
+    src: url('./assets/font/BMHANNAPro.ttf')format('truetype');
 }
 </style>

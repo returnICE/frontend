@@ -1,28 +1,30 @@
 <template>
-  <div class="col-12 pt-3 h-100 h-100 text-left overflow-auto text-baemin" style="font-size: 15px">
+  <div class="col-12 pt-3 h-100 h-100 text-left overflow-auto " style="font-size: 15px">
     <div class="h2 text-truncate">{{ seller.name }}</div>
-    <b-tabs content-class="mt-3" fill>
+    <b-tabs content-class="ma-0" fill>
       <b-tab title="정보" active>
-        <div class="row">
-          <div class="col-2 border-right h5">타입</div>
-          <div class="col-10">{{ seller.type }}</div>
+        <div class="tab-info-wrap">
+          <div class="row ma-0">
+          <div class="col-2 ma-0 tab-info-th ">타입</div>
+          <div class="col-10 ">{{ seller.type }}</div>
         </div>
-        <div class="row">
-          <div class="col-2 border-right h5">주소</div>
-          <div class="col-10">{{ seller.address }}</div>
+        <div class="row ma-0">
+          <div class="col-2 ma-0 tab-info-th ">주소</div>
+          <div class="col-10 ">{{ seller.address }}</div>
         </div>
-        <div class="row">
-          <div class="col-2 border-right h5">번호</div>
-          <div class="col-10">{{ seller.phone }}</div>
+        <div class="row ma-0">
+          <div class="col-2 ma-0 tab-info-th ">번호</div>
+          <div class="col-10 ">{{ seller.phone }}</div>
         </div>
-        <div class="row">
-          <div class="col-2 border-right h5">사진</div>
-          <img class="img-fluid col-10 img-thumbnail" :src="seller.imgURL" />
+        <div class="row ma-0">
+          <div class="col-2 ma-0 tab-info-th ">사진</div>
+          <img class="col-10 " :src="seller.imgURL" />
         </div>
-        <div class="row">
-          <div class="col-2 border-right h5">정보</div>
+        <div class="row ma-0">
+          <div class="col-2 ma-0 tab-info-th ">정보</div>
           <div v-if="seller.info" class="col-10">{{ seller.info }}</div>
           <div v-else class="col-10">됒 사장님 매장소개를 등록해주세요!</div>
+        </div>
         </div>
         <!-- <div>{{ seller.contractable }}</div> -->
       </b-tab>
@@ -30,7 +32,7 @@
         <vue-good-table
           :rows="rows"
           :columns="columns"
-          styleClass="vgt-table condensed text-baemin "
+          styleClass="vgt-table condensed  "
         ></vue-good-table>
       </b-tab>
       <b-tab title="계약">
@@ -188,6 +190,19 @@ export default {
 }
 </script>
 <style scoped>
+.tab-info-wrap {
+  width: 100%;
+  border: 1px solid #DDD;
+  border-top: 0;
+}
+
+.tab-info-th {
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 0;
+}
+
 .prog {
   list-style: none;
   margin: 0;
