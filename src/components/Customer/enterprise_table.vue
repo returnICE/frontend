@@ -52,7 +52,7 @@ export default {
           field: 'address'
         },
         {
-          label: '이번달 이용금액',
+          label: '저번달 이용금액',
           field: 'month_price'
         },
         {
@@ -125,6 +125,7 @@ export default {
           due_price: s.amountPerDay,
           status: approve
         })
+        console.log(s.amountMonth)
       }
       this.isLoading = true
     })
