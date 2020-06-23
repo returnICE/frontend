@@ -9,7 +9,18 @@ import MainEnt from '../views/mainEnt.vue'
 Vue.use(VueRouter)
 
 const requireAuth = () => (from, to, next) => {
-  return next()
+  if (localStorage.accessToken === 'null' && (from.name === 'main' || from.name === 'mainEnt')) {
+    console.log('aa')
+    return next('/')
+  } else if (localStorage.user === 'seller' && (from.name === 'mainEnt' || from.name === 'Login')) {
+    console.log('bb')
+    return next('/main')
+  } else if (localStorage.user === 'enterprise' && (from.name === 'main' || from.name === 'Login')) {
+    console.log('cc')
+    return next('/mainEnt')
+  } else {
+    return next()
+  }
 }
 
 const routes = [
@@ -17,7 +28,8 @@ const routes = [
     path: '/',
     name: 'Login',
     component: Login,
-    props: true
+    props: true,
+    beforeEnter: requireAuth()
   },
   {
     path: '/signUp',

@@ -17,11 +17,14 @@ export default new Vuex.Store({
   },
   mutations: {
     LOGIN (state, accessToken) {
-      state.accessToken = accessToken
-      localStorage.accessToken = accessToken
+      state.accessToken = accessToken.data
+      localStorage.accessToken = accessToken.data
+      localStorage.user = accessToken.user
     },
     LOGOUT (state) {
       state.accessToken = null
+      localStorage.accessToken = null
+      localStorage.user = null
     }
   },
   actions: {
@@ -30,7 +33,10 @@ export default new Vuex.Store({
         ? axios.post('/api/sellers/login', { sellerId: id, pw: pw })
           .then(({ data }) => {
             if (data.success === true) {
-              commit('LOGIN', data.data)
+              commit('LOGIN', {
+                data: data.data,
+                user: 'seller'
+              })
               axios.defaults.headers.common['x-access-token'] = data.data
               localStorage.accessToken = data.data
               window.location.href = '/Main'
@@ -41,7 +47,10 @@ export default new Vuex.Store({
         : axios.post('/api/enterprises/login', { enterpriseId: id, pw: pw })
           .then(({ data }) => {
             if (data.success === true) {
-              commit('LOGIN', data.data)
+              commit('LOGIN', {
+                data: data.data,
+                user: 'enterprise'
+              })
               axios.defaults.headers.common['x-access-token'] = data.data
               localStorage.accessToken = data.data
               window.location.href = '/MainEnt'
