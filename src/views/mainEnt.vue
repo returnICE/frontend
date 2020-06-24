@@ -2,7 +2,7 @@
   <div id="main" class="text-baemin">
     <div class="row justify-content-between"  id="top">
       <a href="/MainEnt"><img src="../assets/login_page/logoEnt.png"  class="logo" /></a>
-      <div><a href = "../"  v-on:click = "logout" id = "logout"><h2>로그아웃</h2></a></div>
+      <button v-on:click = "logout" id = "logout"></button>
     </div>
     <div id="side" style="z-index: 1000;">
       <button @click="mode='customer'" :class="{'btn-clicked':mode=='customer'}" class="side_btn btn-border" id="btn_customer">사원 관리</button>
@@ -119,5 +119,20 @@ export default {
 .logo {
   float: left;
   margin-top: -65px;
+}
+#logout{
+    float: right;
+    margin-right: 20px;
+    width: 54px;
+    height: 57px;
+    background: url('../assets/top_bar/logout.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border : none;
+    cursor : pointer;
+    outline : 0;
+    margin-top: 10px;
 }
 </style>

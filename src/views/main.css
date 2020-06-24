@@ -94,8 +94,17 @@
     margin-top : -65px;
 }
 #logout{
-    float:right;
-    margin-right : 20px;
-    vertical-align: bottom;
-    height : 100%;
+    float: right;
+    margin-right: 20px;
+    width: 54px;
+    height: 57px;
+    background: url('../assets/top_bar/logout.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    border : none;
+    cursor : pointer;
+    outline : 0;
+    margin-top: 10px;
 }
