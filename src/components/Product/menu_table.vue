@@ -73,10 +73,10 @@ export default {
   },
   methods: {
     loadData: function () {
-      this.menu_data = []
-      this.rows = []
       axios.get('/api/sellers/product', {
       }).then((res) => {
+        this.menu_data = []
+        this.rows = []
         for (let i = 0; i < res.data.menu.length; i++) {
           this.rows.push({ id: i + 1, name: res.data.menu[i].menuName, price: res.data.menu[i].price, info: res.data.menu[i].info, score: res.data.menu[i].avgScore })
           this.menu_data.push({ id: i + 1, menuId: res.data.menu[i].menuId })
@@ -87,16 +87,20 @@ export default {
     selectionChanged: function (params) {
       this.selectList = params.selectedRows
     },
-    delete_function: function () {
+    delete_function: async function () {
       for (let i = 0; i < this.selectList.length; i++) {
         for (let j = 0; j < this.menu_data.length; j++) {
           if (this.menu_data[j].id === this.selectList[i].id) {
-            axios.delete(`/api/sellers/product/menu/${this.menu_data[j].menuId}`, {}).then(() => {
-              this.loadData()
+            console.log(this.menu_data[j].menuId)
+            await axios.delete(`/api/sellers/product/menu/${this.menu_data[j].menuId}`, {}).then((res) => {
+              if (res.data.success === false) {
+                alert('구독권에 포함되어 있어 삭제 할 수 없습니다.')
+              }
             })
           }
         }
       }
+      this.loadData()
     },
     add_function: function () {
       this.$modal.show(addMenu, {
