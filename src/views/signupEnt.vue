@@ -100,6 +100,7 @@ export default {
         lon: "",
         amountPerDay: "",
         amountPerMonth: "",
+        resetDate: "",
         imgURL: {
           set: function(newValue) {}
         },
@@ -136,6 +137,9 @@ export default {
           alert('비밀번호가 다릅니다.')
         }
         else{
+          var date = new Date()
+          date.setMonth(date.getMonth() + 1)
+          this.user.resetDate = date
         const res = await this.$http.post("/api/enterprises", this.user);
         if (res.data.success == true) {
           console.log(res);
