@@ -21,7 +21,7 @@
             class = "my-table"
             :columns="columns"
             :rows="rows"
-            max-height="300px"
+            max-height="250px"
             :fixed-header="true"
             styleClass="vgt-table striped"/>
         </div><br/>
