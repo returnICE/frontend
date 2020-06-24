@@ -28,6 +28,7 @@
           </span>
         </template>
       </vue-good-table>
+      <div> 기업 신청 코드: {{ enterpriseCode }}</div>
     </div>
   </div>
 </template>
@@ -66,7 +67,8 @@ export default {
           field: 'cancel'
         }
       ],
-      rows: []
+      rows: [],
+      enterpriseCode: ''
     }
   },
 
@@ -85,6 +87,7 @@ export default {
         }
         this.rows.push(dic)
       }
+      this.enterpriseCode = res.data.enterpriseCode
       this.isLoading = true
     })
   },
