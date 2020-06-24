@@ -46,7 +46,7 @@
                           </div>
                         </div>
                         <div>
-                          <button class="bill-btn">정산하기</button>
+                          <button class="bill-btn" @click="gotopay(contract,contractsBill.get(contract.Seller.name))">정산하기</button>
                         </div>
                       </b-card-text>
                     </b-card-body>
@@ -154,6 +154,43 @@ export default {
           break
       }
       return result
+    },
+    gotopay: function (contract, bill) {
+      console.log(localStorage.user)
+      console.log(contract)
+      var IMP = window.IMP
+      IMP.init('imp30921676')
+      IMP.request_pay({
+        popup: true,
+        pg: 'danal',
+        pay_method: 'card',
+        merchant_uid: contract.enterpriseId + contract.contractId + 'merchant_' + new Date().getTime(), // enterpriseId, contractId 채워야됨
+        customer_uid: contract.enterpriseId, // enterpriseId 채워야됨
+        name: contract.Seller.name, // name-> 식당 이름    기업이름 아님!
+        amount: bill, // 가격
+        buyer_email: '',
+        buyer_name: contract.Enterprise.name, // 기업 이름
+        buyer_tel: contract.Enterprise.phone, // 기업 번호
+        buyer_addr: '',
+        buyer_postcode: ''
+      }, function (rsp) {
+        if (rsp.success) {
+          axios.post('api/pay/enterprisecheck', {
+            imp_uid: rsp.imp_uid,
+            merchant_uid: rsp.merchant_uid,
+            contractId: contract.contractId
+          }).then(res => {
+            console.log(res.data)
+            if (res.data.status === 'success') {
+              alert('결제완료!')
+            } else {
+              alert('결제거부')
+            }
+          })
+        } else {
+          alert('결제실패')
+        }
+      })
     }
   },
   beforeCreate () {
