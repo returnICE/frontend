@@ -93,13 +93,15 @@ export default {
       }).then((res) => {
         for (var s of res.data.data) {
           var transmitDate = s.transmitDate.slice(0, 10) + ' ' + s.transmitDate.slice(11, 19)
+          var targetOp = s.targetOp === 'all' ? '전체' : s.targetOp === 'birth' ? '생일자' : s.targetOp === 'enterprise' ? '기업이용자' : '구독권이용자'
           var dic = {
             campaignId: s.campaignId,
             transmitDate: transmitDate,
             body: s.body,
-            targetOp: s.targetOp,
+            targetOp: targetOp,
             title: s.title
           }
+          console.log(s.targetOp)
           this.rows.push(dic)
         }
       })
@@ -117,6 +119,7 @@ export default {
           targetOp: s.targetOp,
           title: s.title
         }
+        console.log(s.targetOp)
         this.rows.push(dic)
       }
       this.isLoading = true
