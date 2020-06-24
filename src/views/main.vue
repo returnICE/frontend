@@ -2,7 +2,7 @@
     <div id = "main">
         <div id = "top">
           <img src='../assets/login_page/logo.png' class="logo"/>
-          <a href = "../" v-on:click = "logout" id = "logout">로그아웃</a>
+          <button v-on:click = "logout" id = "logout"></button>
         </div>
         <div id = "side" style="z-index: 1000;">
             <button v-on:click = "sideclick('customer')" class = "side_btn" id = "btn_customer"></button>

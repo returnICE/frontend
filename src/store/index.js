@@ -65,6 +65,7 @@ export default new Vuex.Store({
     },
     LOGOUT ({ commit }) {
       commit('LOGOUT')
+      window.location.href = '/'
     }
   },
   modules: {

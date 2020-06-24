@@ -14,7 +14,7 @@ export default {
             pointBackgroundColor: 'whsite',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
-            data: [10, 20, 15, 17, 30, 40, 25, 32, 32, 37, 39, 35]
+            data: []
           }
         ]
       },
@@ -56,7 +56,7 @@ export default {
         labels[11 - i] = temp + '월'
       }
       this.datacollection.labels = labels
-      // this.datacollection.datasets[0].data = res.data.resultData.resultsubNumData
+      this.datacollection.datasets[0].data = res.data.resultData.resultsubNumData
       this.renderChart(this.datacollection, this.options)
     })
   }
