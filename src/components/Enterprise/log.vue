@@ -37,16 +37,25 @@
                         {{contract.Seller.name}}
                       </b-card-title>
                       <b-card-text class="bg-white pt-2">
-                        <div class="row col-12">
-                          <div class="col-6 h5">
-                            이번달 이용금액
+                        <div class="row col-12 justify-content-center">
+                          <div class="col-4 h5">
+                            이번달 현재 이용금액
                           </div>
-                          <div class="col-6 h5">
-                            {{contractsBill.get(contract.Seller.name)}}
+                          <div class="col-4 h5">
+                            {{contractsBill.get(contract.Seller.name)}} 원
+                          </div>
+                        </div>
+                        <div class="row col-12 justify-content-center">
+                          <div class="col-4 h5">
+                            정산 날짜
+                          </div>
+                          <div class="col-4 h5">
+                            {{contract.paymentDay}}
                           </div>
                         </div>
                         <div>
-                          <button class="bill-btn">정산하기</button>
+                          <button class="bill-btn" v-if="new Date(contract.paymentDay) <= new Date()"  @click="gotopay(contract,contractsBill.get(contract.Seller.name))">정산하기</button>
+                          <div v-else> 정산일 까지 D-{{ Math.ceil((new Date(contract.paymentDay).getTime()-new Date().getTime())/(1000*3600*24)) }} </div>
                         </div>
                       </b-card-text>
                     </b-card-body>
@@ -154,6 +163,43 @@ export default {
           break
       }
       return result
+    },
+    gotopay: function (contract, bill) {
+      console.log(localStorage.user)
+      console.log(contract)
+      var IMP = window.IMP
+      IMP.init('imp30921676')
+      IMP.request_pay({
+        popup: true,
+        pg: 'danal',
+        pay_method: 'card',
+        merchant_uid: contract.enterpriseId + contract.contractId + 'merchant_' + new Date().getTime(), // enterpriseId, contractId 채워야됨
+        customer_uid: contract.enterpriseId, // enterpriseId 채워야됨
+        name: contract.Seller.name, // name-> 식당 이름    기업이름 아님!
+        amount: bill, // 가격
+        buyer_email: '',
+        buyer_name: contract.Enterprise.name, // 기업 이름
+        buyer_tel: contract.Enterprise.phone, // 기업 번호
+        buyer_addr: '',
+        buyer_postcode: ''
+      }, function (rsp) {
+        if (rsp.success) {
+          axios.post('api/pay/enterprisecheck', {
+            imp_uid: rsp.imp_uid,
+            merchant_uid: rsp.merchant_uid,
+            contractId: contract.contractId
+          }).then(res => {
+            console.log(res.data)
+            if (res.data.status === 'success') {
+              alert('결제완료!')
+            } else {
+              alert('결제거부')
+            }
+          })
+        } else {
+          alert('결제실패')
+        }
+      })
     }
   },
   beforeCreate () {
