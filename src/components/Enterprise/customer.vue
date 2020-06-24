@@ -97,12 +97,12 @@ export default {
       this.selectList = params.selectedRows
     },
     remove: function (params) {
-      axios.delete(`/api/enterprises/member/${params.meberId}`).then(res => {
+      axios.delete(`/api/enterprises/member/${params.memberId}`).then(res => {
         res.data.success ? alert('처리되었습니다!') : alert('실패하였습니다!')
       })
     },
     add: function (params) {
-      axios.put('/api/enterprises/member', { approval: 1, customerId: params.name }).then(res => {
+      axios.put('/api/enterprises/member', { approval: 1, customerId: params.customerId }).then(res => {
         res.data.success ? alert('처리되었습니다!') : alert('실패하였습니다!')
       })
     }
