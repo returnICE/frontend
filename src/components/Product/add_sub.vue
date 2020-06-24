@@ -74,6 +74,10 @@ export default {
       } else if (this.term === '일') {
         termNum = 24
       }
+      if (menuList.length === 0) {
+        alert('선택된 메뉴가 없습니다')
+        return
+      }
       axios.post('/api/sellers/product/sub', {
         subName: this.subName,
         info: this.info,
