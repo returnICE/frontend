@@ -13,7 +13,7 @@
         :search-options="{
           enabled: true
         }"
-        :totalRows="1000"
+        :totalRows="100"
         :rows="rows"
         :columns="columns"
         @on-row-click="onRowClick"
@@ -74,6 +74,7 @@ export default {
     loadItems () {
       axios.post('/api/search/ent', { data: this.serverParams }).then(res => {
         this.rows = res.data.sellerdata
+        console.log(this.rows)
         for (var i = 0; i < this.rows.length; i++) {
           if (this.rows[i].type === 'dinner') {
             this.rows[i].type = '식당'

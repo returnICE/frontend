@@ -37,16 +37,25 @@
                         {{contract.Seller.name}}
                       </b-card-title>
                       <b-card-text class="bg-white pt-2">
-                        <div class="row col-12">
-                          <div class="col-6 h5">
-                            이번달 이용금액
+                        <div class="row col-12 justify-content-center">
+                          <div class="col-4 h5">
+                            이번달 현재 이용금액
                           </div>
-                          <div class="col-6 h5">
-                            {{contractsBill.get(contract.Seller.name)}}
+                          <div class="col-4 h5">
+                            {{contractsBill.get(contract.Seller.name)}} 원
+                          </div>
+                        </div>
+                        <div class="row col-12 justify-content-center">
+                          <div class="col-4 h5">
+                            정산 날짜
+                          </div>
+                          <div class="col-4 h5">
+                            {{contract.paymentDay}}
                           </div>
                         </div>
                         <div>
-                          <button class="bill-btn" @click="gotopay(contract,contractsBill.get(contract.Seller.name))">정산하기</button>
+                          <button class="bill-btn" v-if="new Date(contract.paymentDay) <= new Date()"  @click="gotopay(contract,contractsBill.get(contract.Seller.name))">정산하기</button>
+                          <div v-else> 정산일 까지 D-{{ Math.ceil((new Date(contract.paymentDay).getTime()-new Date().getTime())/(1000*3600*24)) }} </div>
                         </div>
                       </b-card-text>
                     </b-card-body>
