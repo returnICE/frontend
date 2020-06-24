@@ -62,7 +62,6 @@ export default {
         { field: 'name', label: '이름', width: '100px' },
         { field: 'address', label: '주소', width: '100px', tdClass: 'tdClassFunc' },
         { field: 'type', label: '타입', width: '100px' },
-        { field: 'contractable', label: '계약허용', type: 'number', width: '100px' },
         { field: 'totalSubs', label: '구독자 수', type: 'number', width: '100px' }
       ]
     }
@@ -75,6 +74,15 @@ export default {
     loadItems () {
       axios.post('/api/search/ent', { data: this.serverParams }).then(res => {
         this.rows = res.data.sellerdata
+        for (var i = 0; i < this.rows.length; i++) {
+          if (this.rows[i].type === 'dinner') {
+            this.rows[i].type = '식당'
+          } else if (this.rows[i].type === 'bar') {
+            this.rows[i].type = '술집'
+          } else if (this.rows[i].type === 'cafe') {
+            this.rows[i].type = '카페'
+          }
+        }
         this.isLoading = true
       })
     },

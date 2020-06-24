@@ -29,6 +29,7 @@
         </template>
       </vue-good-table>
     </div>
+    <b-button class="ml-3 rounded-pill" variant="outline-secondary" v-on:click="gotopay()" >결제</b-button>
   </div>
 </template>
 <script>
@@ -75,9 +76,10 @@ export default {
       for (var s of res.data.data) {
         this.currentId += 1
         var dic = {
-          meberId: s.memberId,
+          memberId: s.memberId,
           id: this.currentId,
-          name: s.Customer.customerId,
+          name: s.Customer.name,
+          customerId: s.Customer.customerId,
           phone: s.Customer.phone,
           birth: s.Customer.birth,
           cancel: s.approval === 1 ? 'O' : 'X'
@@ -100,6 +102,41 @@ export default {
     add: function (params) {
       axios.put('/api/enterprises/member', { approval: 1, customerId: params.name }).then(res => {
         res.data.success ? alert('처리되었습니다!') : alert('실패하였습니다!')
+      })
+    },
+    gotopay: function () {
+      var IMP = window.IMP
+      IMP.init('imp30921676')
+      IMP.request_pay({
+        popup: true,
+        pg: 'danal',
+        pay_method: 'card',
+        merchant_uid: 'enterpriseId' + 'contractId' + 'merchant_' + new Date().getTime(), // enterpriseId, contractId 채워야됨
+        customer_uid: 'enterpriseId', // enterpriseId 채워야됨
+        name: 'qq11', // name-> 식당 이름    기업이름 아님!
+        amount: '100', // 가격
+        buyer_email: '',
+        buyer_name: 'enterprisename', // 기업 이름
+        buyer_tel: 'enterprisephone', // 기업 번호
+        buyer_addr: '',
+        buyer_postcode: ''
+      }, function (rsp) {
+        if (rsp.success) {
+          axios.post('api/pay/enterprisecheck', {
+            imp_uid: rsp.imp_uid,
+            merchant_uid: rsp.merchant_uid
+            // contractId:  컨트랙트 id 넣어야됨~~~~~~~
+          }).then(res => {
+            console.log(res.data)
+            if (res.data.status === 'success') {
+              alert('결제완료!')
+            } else {
+              alert('결제거부')
+            }
+          })
+        } else {
+          alert('결제실패')
+        }
       })
     }
   }
