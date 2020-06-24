@@ -25,14 +25,15 @@ export default {
     }
   },
   methods: {
-    add_menu_function () {
-      axios.post('/api/sellers/product/menu', {
+    add_menu_function: async function () {
+      await axios.post('/api/sellers/product/menu', {
         menuName: this.menuName,
         info: this.info,
         price: parseInt(this.price)
+      }).then(() => {
+        this.$emit('loadData')
+        this.$emit('close')
       })
-      this.$emit('loadData')
-      this.$emit('close')
     }
   }
 }

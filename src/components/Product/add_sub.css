@@ -26,3 +26,7 @@
     width : 300px;
     height : 40px;
 }
+#check{
+    overflow-y: scroll;
+    height : 70px;
+}

@@ -16,8 +16,10 @@
         구독권 안내 : <input type="text" v-model='info' class = "input_text"/>
         </div><br/>
         제공메뉴 :
-        <div  v-for="menu_name in menus" v-bind:key="menu_name">
-        <input type="checkbox" v-on:change="checkbox_change_event(menu_name)"/>{{menu_name}}<br/>
+        <div id = "check">
+          <div v-for="menu_name in menus" v-bind:key="menu_name">
+            <input type="checkbox" v-on:change="checkbox_change_event(menu_name)"/>{{menu_name}}<br/>
+          </div>
         </div>
         <div>
             <button v-on:click = "add_sub_function" id = "add_sub_submit"/>
