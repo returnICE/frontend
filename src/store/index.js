@@ -11,10 +11,10 @@ const enhanceAccessToeken = () => {
 }
 enhanceAccessToeken()
 
-console.log(process)
 if (process.env.NODE_ENV !== 'development') {
   axios.defaults.baseURL = 'http://ec2-3-34-136-60.ap-northeast-2.compute.amazonaws.com:3000/'
 }
+
 export default new Vuex.Store({
   state: {
     accessToken: null
