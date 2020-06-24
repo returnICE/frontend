@@ -9,7 +9,7 @@
           <button v-on:click = "delete_function" class = "delete_btn" ></button>
       </div>
       <div>
-        <modals-container v-on:read_product="read_product"/>
+        <modals-container id = "modal" v-on:read_product="read_product"/>
       </div>
       <vue-good-table
         class = "my-table"
@@ -70,9 +70,10 @@ export default {
     }).then((res) => {
       for (let i = 0; i < res.data.subItem.length; i++) {
         var str = ''
-        for (let j = 0; j < res.data.subItem[i].Menus.length; j++) {
+        for (let j = 0; j < res.data.subItem[i].Menus.length - 1; j++) {
           str += res.data.subItem[i].Menus[j].menuName + ','
         }
+        str += res.data.subItem[i].Menus[res.data.subItem[i].Menus.length - 1].menuName
         var term = res.data.subItem[i].term + '시간'
         if (res.data.subItem[i].term === 24 * 7) {
           term = '주'
@@ -108,9 +109,10 @@ export default {
       axios.get('/api/sellers/product', {}).then((res) => {
         for (let i = 0; i < res.data.subItem.length; i++) {
           var str = ''
-          for (let j = 0; j < res.data.subItem[i].Menus.length; j++) {
+          for (let j = 0; j < res.data.subItem[i].Menus.length - 1; j++) {
             str += res.data.subItem[i].Menus[j].menuName + ','
           }
+          str += res.data.subItem[i].Menus[res.data.subItem[i].Menus.length - 1].menuName
           var term = res.data.subItem[i].term + '시간'
           if (res.data.subItem[i].term === 24 * 7) {
             term = '주'
