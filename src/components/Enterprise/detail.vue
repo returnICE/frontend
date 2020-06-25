@@ -77,7 +77,7 @@
                   </svg>
                 </button>
                 <div v-if="step[0]" class="mt-2 h5">계약서 전송</div>
-                <div v-else class="mt-2 h5">계약 불가 매장</div>
+                <div v-else class="mt-2 h5">계약 거절...</div>
               </div>
               <div class="col-6">
                 <div class="col-12 text-center">계약서 전송을 원하시면 회사 이름을 입력해주세요</div>
@@ -147,6 +147,7 @@ export default {
                 this.step = [true, true, true]
                 break
               default:
+                this.step = [false, false, false]
                 break
             }
           }
