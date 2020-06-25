@@ -13,7 +13,7 @@
         :search-options="{
           enabled: true
         }"
-        :totalRows="100"
+        :totalRows="length"
         :rows="rows"
         :columns="columns"
         @on-row-click="onRowClick"
@@ -45,6 +45,7 @@ export default {
     return {
       isLoading: false,
       rows: [],
+      length: 2,
       totalRecords: 0,
       serverParams: {
         columnFilters: {
@@ -73,6 +74,7 @@ export default {
   methods: {
     loadItems () {
       axios.post('/api/search/ent', { data: this.serverParams }).then(res => {
+        this.length = res.data.length
         this.rows = res.data.sellerdata
         console.log(this.rows)
         for (var i = 0; i < this.rows.length; i++) {

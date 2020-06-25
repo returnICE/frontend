@@ -105,7 +105,7 @@
             <b-form-select-option value="cafe" >카페</b-form-select-option>
           </b-form-select>
         </div>
-        <button id="btn_signup" type="submit" />
+        <button :disabled="pwcollect !== user.pw " id="btn_signup" type="submit" />
       </div>
     </div>
   </form>
@@ -122,7 +122,7 @@ export default {
   data: function() {
     return {
       dropzoneOptions: {
-        url: "http://localhost:3000/upload",
+        url: "api/upload",
         method: "post",
         thumbnailWidth: 150,
         maxFilesize: 0.5,
@@ -200,12 +200,11 @@ export default {
             params: { sellerId: this.user.sellerId }
           });
         } else {
-          alert("error", res.data.err.errors[0].message);
-          console.log(res);
+          alert("아이디 혹은 이름 중복입니다!");
         }
       } catch (error) {
-        alert(error);
         console.log(error);
+        alert(error);
       }
     },
     onFileChange: function() {
