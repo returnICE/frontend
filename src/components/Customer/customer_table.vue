@@ -75,7 +75,7 @@ export default {
           service: s.subName,
           due_count: s.limitTimes - s.usedTimes,
           due_date: s.endDate,
-          cancel: s.autoPay === 1 ? 'O' : 'X'
+          cancel: s.autopay === 0 ? 'O' : 'X'
         }
         this.rows.push(dic)
       }
