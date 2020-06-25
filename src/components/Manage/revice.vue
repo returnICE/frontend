@@ -44,7 +44,7 @@ export default {
   data: function () {
     return {
       dropzoneOptions: {
-        url: 'http://localhost:3000/upload',
+        url: 'api/upload',
         method: 'post',
         thumbnailWidth: 150,
         maxFilesize: 0.5,
