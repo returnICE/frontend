@@ -69,7 +69,7 @@ http://ajoucapstoneweb.s3-website.ap-northeast-2.amazonaws.com/
 ![8](https://user-images.githubusercontent.com/38278199/95105228-cd2e6200-0771-11eb-9ba5-e49c4374f90f.png)
 
 ### SOFTCON
-![9](https://user-images.githubusercontent.com/38278199/95105224-cc95cb80-0771-11eb-8a49-85ee65a977cc.jpg)
+![판넬-SW캡스톤-팀명-1](https://user-images.githubusercontent.com/38278199/95114786-6ca62180-077f-11eb-9f1a-5d1c9dc27c2b.png)
 
 ## Project setup
 ```
