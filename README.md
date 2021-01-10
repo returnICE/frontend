@@ -1,5 +1,3 @@
-# frontend
-
 ## Project 요약
 
 # Let Eat, Go 프로젝트
